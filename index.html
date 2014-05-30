@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Its.A Error Reporting</title>
+
+  <meta name="robots" content="noindex">
+
+</head>
+
+<body>
+
+  <h1>Experimental Error Reporting, its good:</h1>
+<pre>
+// -- Usage Examples -- //
+// Outdated methods.
+
+//-- Variable test
+var texty = 'This is a String variable';
+Its.A(texty);
+
+//-- Number Test
+var number = 1;
+Its.A(number);
+
+//-- Number String Test
+var numberString = '1';
+Its.A(numberString);
+
+//-- Date Test
+var date = new Date();
+Its.A(date);
+
+//--  Body Element Test
+Its.A(document.body);
+
+//-- Element Test
+var p = document.createElement('p');
+Its.A(p);
+
+//-- Array Test
+var arr = [
+  "Eggs", 
+  "Milk"
+];
+Its.A(arr);
+
+//-- Object Test
+var ObjectTest =
+    {
+        "key1": "The value of key1 in ObjectTest",
+        "key2": "The value of key2 in ObjectTest",
+        "key3": "The value of key3 in ObjectTest"
+    };
+Its.A(ObjectTest);
+</pre>
+
+  <script src="js/itsa.js"></script>
+
+</body>
+
+</html>
