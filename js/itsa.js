@@ -21,39 +21,31 @@ var its = {
         content = document.createTextNode(ctx),
         closeButton = document.createElement('button'),
         closeCtx = document.createTextNode('x');
-    
+
     // Assemble the view output
+    container.className += "its-a-message";
+    
+    // The Output Container Styles
+    this.styleContent(container, closeButton);
+    
     container.appendChild(content);
     container.appendChild(closeButton);
     closeButton.appendChild(closeCtx);
     errorContainer.appendChild(container);
     
-    container.className += "its-a-message";
-    
     //-- Click to close
-    this.removeThisMessage(closeButton, container);
-    
-    // The Output Container Styles
-    this.styleContent(container, closeButton);
+    this.removeSingleMessage(closeButton, container);
     
     //-- Insert it all as the first element in body
     errorContainer.insertBefore(container, container.nextSibling);
   },
   assembleContext: function(ctx, type){
     if(type){
-      ctx = ctx + ' | Type: ' + type + ' | Caller: callerName | Line: 102 |';
+      ctx = ctx + ' | Type: ' + type;
     }else{
       ctx = ctx;
     }
     return ctx;
-  },
-  removeThisMessage: function(closeButton, container){
-    closeButton.onclick = function () { 
-      container.parentNode.removeChild(container);
-    };
-  },
-  clearAll: function(){
-    document.querySelectorAll(".class");
   },
   processObject: function(key,value){
     var objIterativeType = this.checkType(value);
@@ -64,18 +56,20 @@ var its = {
         " | Type: " + objIterativeType;
     this.appendContent(combined);
   },
-  traverseObject: function(o, processObject){
-    for (var i in o) {
-        processObject.apply(this,[i,o[i]]);  
-        if (o[i] !== null && typeof(o[i])=="object") {
-            var iteration = o[i];
+  traverseObject: function(ctx, processObject){
+    var count = 0;
+    for (var key in ctx) {
+      ++count;
+        processObject.apply(this,[key,ctx[key]]);
+        if (ctx[key] !== null && typeof(ctx[key])=="object") {
+          console.log(count);
+            var iteration = ctx[key];
             this.traverseObject(iteration,processObject);
         }
     }
   },
   a: function(ctx, toggleTypeCheck){
     var type = '';
-    
     if(toggleTypeCheck === false){
       type = ''; 
     }else{
@@ -83,19 +77,28 @@ var its = {
       type = this.checkType(ctx);
     }
     // Once the type is attached the output becomes a string.
-    // Were avoiding turning objects into strings.
+    // Were avoiding turning objects and arrays into strings.
     // This allows objects to be more easily inspected.
     // The object breakdown comes later.
-    if(type === 'object'){
-      type = ctx; 
-      this.appendContent(type);
-      this.traverseObject(type,this.processObject)
+    if(type === 'object' || type === 'array'){
+      //alert(Object.keys(ctx).length);
+      type = this.checkType(ctx); 
+      this.appendContent( 'Type: ' + type + '(' + Object.keys(ctx).length + ')' );
+      this.traverseObject(ctx,this.processObject)
     }else{
       type = this.assembleContext(ctx, type);
       // Turn on detection for console.log
-      //console.log(type);
+      console.log(type);
       this.appendContent(type);
     }
+  },
+  removeSingleMessage: function(closeButton, container){
+    closeButton.onclick = function () { 
+      container.parentNode.removeChild(container);
+    };
+  },
+  clearAll: function(){
+    document.getElementById('its-wrapper').innerHTML = '';
   },
   checkType: function(global){
     var cache = {};
@@ -111,20 +114,15 @@ var its = {
   }(this)
 };
 
-
 var elcontainer = document.createElement('div');
     elcontainer.setAttribute("id", "its-wrapper");
     document.body.insertBefore(elcontainer, document.body.firstChild);
 
-//-- Number Test
-var number = 1;
-its.a(number);
 
-//-- Number String Test
-var numberString = '1';
-its.a(numberString);
 
-var objectIdentifier = { 
+
+// ==== TEST BED === //
+var multiStructuredObject = { 
   foo:"bar",
   foo2: "foo2",
   arr:[1,2,3],
@@ -137,58 +135,75 @@ var objectIdentifier = {
     }
   }
 };
-its.a(objectIdentifier);
+its.a(multiStructuredObject);
+
+
 
 
 
 /*
 
-//-- Number Test
+// ------- Usage Examples ------- //
+// ------------------------------ //
+// Tell me everything
+// it.a(whatever);
+// Pass in false to disable type detection
+// its.a(whatever,false);
+
+
+// -- Configure Type Detection Example -- //
+var testDefaultMessage = 'Default Message';
+its.a(testDefaultMessage);
+var testTypeDetectionOff = 'Type Detection set to False';
+its.a(testTypeDetectionOff,false);
+
+// -- String Test --//
+var texty = 'This is a String variable';
+its.a(texty);
+
+
+// -- Number Test -- //
 var number = 1;
 its.a(number);
 
-//-- Number String Test
+
+// -- Number String Test -- //
 var numberString = '1';
 its.a(numberString);
 
 
-// -- Usage Examples -- //
+// -- Booleon Test -- //
+var trueTest = true;
+its.a(trueTest);
 
-//-- Variable test
-var texty = 'This is a String variable';
-//-- False doesn't tell you what kind it is.
-its.a(texty,false);
+var itsNotABooleon = 'TRUE';
+its.a(itsNotABooleon);
 
-//-- Number Test
-var number = 1;
-//its.a(number);
+var falseTest = false;
+its.a(false);
 
-//-- Number String Test
-var numberString = '1';
-//Its.A(numberString);
+var alsoNotABooleon = 'FALSE';
+its.a(alsoNotABooleon);
 
-//-- Date Test
+
+// -- Date Test -- //
 var date = new Date();
 its.a(date);
 
 
-//--  Body Element Test
+// --  Element Test -- //
 its.a(document.body);
 
 
-//-- Element Test
-var p = document.createElement('p');
-//Its.A(p);
-
-
-//-- Array Test
+// -- Array Test -- //
 var arr = [
   "Eggs", 
   "Milk"
 ];
 its.a(arr);
 
-//-- Object Test
+
+// -- Simple Object Test -- //
 var ObjectTest =
     {
         "key1": {
@@ -199,12 +214,8 @@ var ObjectTest =
 its.a(ObjectTest);
 
 
-//-- Empty Object
-var emptyObj = {};
-//Its.A(emptyObj);
-
-
-var o = { 
+// -- Object containaining a variety of properties types -- //
+var multiStructuredObject = { 
   foo:"bar",
   foo2: "foo2",
   arr:[1,2,3],
@@ -217,8 +228,33 @@ var o = {
     }
   }
 };
-its.a(o);
+its.a(multiStructuredObject);
 
+
+// -- Array with objects -- //
+var arrayWithObjects = [{
+   "city": "Dallas",
+   "state": "TX",
+   "zip": 75201,
+   "price": 162500
+},{
+   "city": "New York",
+   "state": "NY",
+   "zip": 00010,
+   "price": 962500
+}];
+/*
+its.a('----- arrayWithObjects[0].city -----', false);
+its.a(arrayWithObjects[0].city);
+its.a('--------------------', false);
+its.a('----- arrayWithObjects[0] -----', false);
+its.a(arrayWithObjects[1])
+its.a('--------------------', false);
+its.a('----- arrayWithObjects -----', false);
+its.a(arrayWithObjects);
+/*
+
+// -- Massive Object Test -- //
 var bigobj = {
   "id.2467": 2467,
   "businessId.2467": [1341,222,32,444],
@@ -407,4 +443,6 @@ var bigobj = {
   }
 };
 //its.a(bigobj);
+
+
 */
