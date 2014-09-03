@@ -1,260 +1,307 @@
+//-// -------------- its.a -------------- //-//
 var its = {
-  styleContent : function(container, closeButton){
-    // Container Styles
-    container.style.backgroundColor = 'rgb(170,0,0)';
-    container.style.color = 'white';
-    container.style.display = 'block';
-    container.style.padding = '5px 8% 5px 5px';
-    container.style.width = '92%';
-    container.style.margin = '1px';
-    container.style.position = 'relative';
-    
-    // Close Button Style
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '5%';
-    closeButton.style.right = '0.85%';
+  
+  // -- API Useage -- //
+  // Description Output Options
+  heading: function(ctx){
+    its.appendContent('// ---------------- ' + ctx + ' --------------- //');
   },
-  appendContent : function(ctx){
-    // Output Elements
+  subheading: function(ctx){
+    its.appendContent( '// -- ' + ctx + ' -- //');
+  },
+  line: function(){
+    its.appendContent( '// ---------------------------------------------------------------- //');
+  },
+  message: function(heading, message){
     var errorContainer = document.getElementById('its-wrapper'),
-        container = document.createElement('div'),
-        content = document.createTextNode(ctx),
-        closeButton = document.createElement('button'),
+        wrapper = document.createElement('div'),
+        headingElement = document.createElement('div'),
+        headingText = document.createTextNode(heading),
+        messageElement = document.createElement('pre'),
+        messageText = document.createTextNode(message);
+    
+    wrapper.style.position = 'relative';
+    
+    headingElement.appendChild(headingText);
+    
+    messageElement.appendChild(messageText);
+    
+    
+    // Heading
+    this.styleContent(headingElement);
+    
+    // Close Button
+    this.createCloseButton(wrapper);
+    
+    this.styleObject(messageElement);
+
+    messageElement.appendChild(messageText);
+    wrapper.appendChild(headingElement);
+    wrapper.appendChild(messageElement);
+    errorContainer.appendChild(wrapper);
+  },
+  // Clear The Entire Error Board
+  clearAll: function(){
+    document.getElementById('its-wrapper').innerHTML = '';
+  },
+  
+  
+  
+  // -- Close Single Message Button -- //
+  // Close Button Styles
+  styleCloseButton: function(closeButton){
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '5px';
+    closeButton.style.right = '0.85%';
+    closeButton.style.zIndex = '10';
+  },
+  // Create Close Button Element
+  createCloseButton: function(parentContainer){
+    var closeButton = document.createElement('button'),
         closeCtx = document.createTextNode('x');
 
-    // Assemble the view output
-    container.className += "its-a-message";
-    
-    // The Output Container Styles
-    this.styleContent(container, closeButton);
-    
-    container.appendChild(content);
-    container.appendChild(closeButton);
     closeButton.appendChild(closeCtx);
-    errorContainer.appendChild(container);
-    
-    //-- Click to close
-    this.removeSingleMessage(closeButton, container);
-    
-    //-- Insert it all as the first element in body
-    errorContainer.insertBefore(container, container.nextSibling);
+    parentContainer.appendChild(closeButton);
+    this.styleCloseButton(closeButton);
+    this.removeSingleMessage(closeButton, parentContainer);
   },
-  assembleContext: function(ctx, type){
-    if(type){
-      ctx = ctx + ' | Type: ' + type;
-    }else{
-      ctx = ctx;
-    }
-    return ctx;
-  },
-  processObject: function(key,value){
-    var objIterativeType = this.checkType(value);
-    var combined =  
-        key +
-        " : " + 
-        value + 
-        " | Type: " + objIterativeType;
-    this.appendContent(combined);
-  },
-  traverseObject: function(ctx, processObject){
-    var count = 0;
-    for (var key in ctx) {
-      ++count;
-        processObject.apply(this,[key,ctx[key]]);
-        if (ctx[key] !== null && typeof(ctx[key])=="object") {
-          console.log(count);
-            var iteration = ctx[key];
-            this.traverseObject(iteration,processObject);
-        }
-    }
-  },
-  a: function(ctx, toggleTypeCheck){
-    var type = '';
-    if(toggleTypeCheck === false){
-      type = ''; 
-    }else{
-      // Attach type (object, number, array, string, null)
-      type = this.checkType(ctx);
-    }
-    // Once the type is attached the output becomes a string.
-    // Were avoiding turning objects and arrays into strings.
-    // This allows objects to be more easily inspected.
-    // The object breakdown comes later.
-    if(type === 'object' || type === 'array'){
-      //alert(Object.keys(ctx).length);
-      type = this.checkType(ctx); 
-      this.appendContent( 'Type: ' + type + '(' + Object.keys(ctx).length + ')' );
-      this.traverseObject(ctx,this.processObject)
-    }else{
-      type = this.assembleContext(ctx, type);
-      // Turn on detection for console.log
-      console.log(type);
-      this.appendContent(type);
-    }
-  },
+  // Remove Single Message Functionality
   removeSingleMessage: function(closeButton, container){
     closeButton.onclick = function () { 
       container.parentNode.removeChild(container);
     };
   },
-  clearAll: function(){
-    document.getElementById('its-wrapper').innerHTML = '';
+  
+  
+  
+  // -- Standard Message Handeling -- //
+  // Style the Message
+  styleContent : function(container){
+    container.style.backgroundColor = 'rgb(170,0,0)';
+    container.style.color = 'white';
+    container.style.display = 'block';
+    container.style.padding = '5px 8% 5px 5px';
+    container.style.width = '100%';
+    container.style.margin = '1px';
+    container.style.boxSizing = 'border-box';
+    container.style.position = 'relative';
   },
+  // Adds the Type the message context
+  assembleContext: function(ctx, type){
+    if(type){
+      ctx = ctx + ' (' + type + ')';
+    }else{
+      ctx = ctx;
+    }
+    return ctx;
+  },
+  // Creates and Appends all the information for standard things
+  appendContent : function(ctx, checkToAppendCloseButton){
+    // Output Elements
+    var errorContainer = document.getElementById('its-wrapper'),
+        container = document.createElement('div'),
+        content = document.createTextNode(ctx),
+        closeButton;
+    
+    // Pass false to disable type detection.
+    // its.a(whatever, false);
+    if(checkToAppendCloseButton !== false){
+      this.createCloseButton(container);
+    }
+    
+    // Set Output Class
+    container.className += "its-a-message";
+    
+    
+    // Style and Append
+    this.styleContent(container);
+    container.appendChild(content);
+    errorContainer.appendChild(container);
+    
+    //-- Insert the results as the first element in body
+   errorContainer.insertBefore(container, container.nextSibling);
+  },
+  
+  
+  
+  // -- HTML Element Message Handeling -- //
+  htmlElement:function(ctx){
+    var errorContainer = document.getElementById('its-wrapper'),
+        wrapper = document.createElement('div'),
+        heading = document.createElement('div'),
+        headingText,
+        pre = document.createElement('pre'),
+        tmp = document.createElement('div'),
+        ctxHeader = ctx.cloneNode(false),
+        ctxCopyChildren = ctx.cloneNode(true),
+        headerToString,
+        elementToString;
+    
+    wrapper.style.position = 'relative';
+    
+    // Heading
+    tmp.appendChild(ctxHeader);
+    headerToString = document.createTextNode(tmp.innerHTML);
+    heading.appendChild(headerToString);
+    this.styleContent(heading);
+    tmp.innerHTML = '';
+    
+    // Close Button
+    this.createCloseButton(wrapper);
+    
+    // Convert html element to text
+    tmp.appendChild(ctxCopyChildren);
+    elementToString = document.createTextNode(tmp.innerHTML);
+    this.styleObject(pre);
+
+    pre.appendChild(elementToString);
+    wrapper.appendChild(heading);
+    wrapper.appendChild(pre);
+    errorContainer.appendChild(wrapper);
+  },
+  
+  
+  
+  // -- Object Message Handeling -- //
+  // Object Container Styles
+  styleObject: function( object ){
+    object.style.padding = '10px';
+    object.style.border = '3px solid rgb(170, 0, 0)';
+    object.style.margin = '0';
+  },
+  // Object Traversal and Nesting
+  // Basically - loop through object properties
+  // Create and Append List Item of Information
+  // Each sub object is appended in a nested ul.
+  processObject: function(key,value, objectContainer, objectSubContainer, objectFirstContainer){
+    var objIterativeType = this.checkType(value),
+        combined = ': ' + value + " (" + objIterativeType + ')',
+        text = document.createTextNode(combined),
+        keyStrong = document.createElement('strong'),
+        li = document.createElement('li'),
+        keyText = document.createTextNode(key);
+    
+    
+    objectContainer.appendChild(objectFirstContainer);
+    objectFirstContainer.appendChild(objectSubContainer);
+    objectContainer.appendChild(objectFirstContainer);
+
+
+    keyStrong.appendChild(keyText);
+
+    li.appendChild(keyStrong);
+    li.appendChild(text);
+    
+
+    objectSubContainer.appendChild(li);
+  },
+  traverseObject: function(ctx, processObject, objectContainer){
+    var objectSubContainer = document.createElement('ul'),
+        objectFirstContainer = document.createElement('li');
+    
+    for (var key in ctx) {
+        its.processObject.apply(this,[key,ctx[key], objectContainer, objectSubContainer, objectFirstContainer]);
+        if (ctx[key] !== null && typeof(ctx[key])=="object") {
+          var objectCtx = ctx[key];
+          this.traverseObject(objectCtx, its.processObject, objectSubContainer );
+        }
+    }
+    
+  },
+  
+  // Group Object and Array Results
+  groupObjectTogether: function( ctx, type ){
+    var objectWrapper = document.createElement('div'),
+        objectHeading = document.createElement('div'),
+        objectHeadingText = document.createTextNode( type ),
+        objectContainer = document.createElement('ul');
+
+    // Header
+    objectHeading.appendChild(objectHeadingText);
+    objectWrapper.style.position = 'relative';
+    this.styleContent(objectHeading);
+
+    this.createCloseButton(objectWrapper);
+
+    // Traverse the object and process the results for display.
+    this.traverseObject(ctx, this.processObject, objectContainer);
+    this.styleObject(objectContainer);
+
+    objectWrapper.appendChild(objectHeading);
+    objectWrapper.appendChild(objectContainer);
+    elcontainer.appendChild(objectWrapper);
+  },
+  
+  
+  
+  // -- Get the type of the input -- //
   checkType: function(global){
     var cache = {};
      return function(obj) {
         var key;
         return obj === null ? 'null' // null
-            : obj === global ? 'global' // window in browser or global in nodejs
-            : (key = typeof obj) !== 'object' ? key // basic: string, boolean, number, undefined, function
-            : obj.nodeType ? 'object:DOMelement' // DOM element
-            : cache[key = ({}).toString.call(obj)] // cached. date, regexp, error, object, array, math
-            || (cache[key] = key.slice(8, -1).toLowerCase()); // get XXXX from [object XXXX], and cache it
+            // window in browser or global in nodejs
+            : obj === global ? 'global' 
+            // basic: string, boolean, number, undefined, function
+            : (key = typeof obj) !== 'object' ? key
+            // DOM element
+            : obj.nodeType ? 'object:DOMelement'
+            // cached. date, regexp, error, object, array, math
+            : cache[key = ({}).toString.call(obj)]
+            // get XXXX from [object XXXX], and cache it
+            || (cache[key] = key.slice(8, -1).toLowerCase()); 
     };
-  }(this)
+  }(),  
+  
+ 
+  // -- Initialization function - its.a(thing); -- //
+  // Controller Starts it all up - distributes the workload
+  a: function(ctx, toggleTypeCheck){
+    // Pass false to disable type detection.
+    // its.a(whatever, false);
+    var type;
+    if(toggleTypeCheck === false){
+      type = '';
+    }else{
+      // Attach type (object, number, array, string, null)
+      type = this.checkType(ctx);
+    }
+    
+    // Object/Array
+    if(type === 'object' || type === 'array'){
+      
+      this.groupObjectTogether(ctx, type);
+      //console.log(ctx);
+   
+    // HTML Element
+    } else if ( type === 'object:DOMelement'){
+      this.htmlElement(ctx);
+      
+    // Variables, Strings, Numbers, Booleon
+    }else{
+      // Return value and type as string of anything other than an array or object.
+      type = this.assembleContext(ctx, type);
+      // Display the output
+      this.appendContent(type);
+    }
+    
+  },
+  
 };
 
 var elcontainer = document.createElement('div');
     elcontainer.setAttribute("id", "its-wrapper");
     document.body.insertBefore(elcontainer, document.body.firstChild);
 
-
-
-
 // ==== TEST BED === //
-var multiStructuredObject = { 
-  foo:"bar",
-  foo2: "foo2",
-  arr:[1,2,3],
-  subo: {
-    foo2:"bar2",
-    anotherfoo:"bar3",
-    newArr:[1,2,3],
-    subsubo: {
-      foo3: "bar3"
-    }
-  }
-};
-its.a(multiStructuredObject);
+// Copy and paste tests here
+// Merge tests below after.
 
+its.message(
+  'its.a()', 
+  'An unintrusive alert window with more information and custom messaging api.'
+);
 
-
-
-
-/*
-
-// ------- Usage Examples ------- //
-// ------------------------------ //
-// Tell me everything
-// it.a(whatever);
-// Pass in false to disable type detection
-// its.a(whatever,false);
-
-
-// -- Configure Type Detection Example -- //
-var testDefaultMessage = 'Default Message';
-its.a(testDefaultMessage);
-var testTypeDetectionOff = 'Type Detection set to False';
-its.a(testTypeDetectionOff,false);
-
-// -- String Test --//
-var texty = 'This is a String variable';
-its.a(texty);
-
-
-// -- Number Test -- //
-var number = 1;
-its.a(number);
-
-
-// -- Number String Test -- //
-var numberString = '1';
-its.a(numberString);
-
-
-// -- Booleon Test -- //
-var trueTest = true;
-its.a(trueTest);
-
-var itsNotABooleon = 'TRUE';
-its.a(itsNotABooleon);
-
-var falseTest = false;
-its.a(false);
-
-var alsoNotABooleon = 'FALSE';
-its.a(alsoNotABooleon);
-
-
-// -- Date Test -- //
-var date = new Date();
-its.a(date);
-
-
-// --  Element Test -- //
-its.a(document.body);
-
-
-// -- Array Test -- //
-var arr = [
-  "Eggs", 
-  "Milk"
-];
-its.a(arr);
-
-
-// -- Simple Object Test -- //
-var ObjectTest =
-    {
-        "key1": {
-          "1":"The value of key1 in ObjectTest"},
-        "key2": "The value of key2 in ObjectTest",
-        "key3": "The value of key3 in ObjectTest"
-    };
-its.a(ObjectTest);
-
-
-// -- Object containaining a variety of properties types -- //
-var multiStructuredObject = { 
-  foo:"bar",
-  foo2: "foo2",
-  arr:[1,2,3],
-  subo: {
-    foo2:"bar2",
-    anotherfoo:"bar3",
-    newArr:[1,2,3],
-    subsubo: {
-      foo3: "bar3"
-    }
-  }
-};
-its.a(multiStructuredObject);
-
-
-// -- Array with objects -- //
-var arrayWithObjects = [{
-   "city": "Dallas",
-   "state": "TX",
-   "zip": 75201,
-   "price": 162500
-},{
-   "city": "New York",
-   "state": "NY",
-   "zip": 00010,
-   "price": 962500
-}];
-/*
-its.a('----- arrayWithObjects[0].city -----', false);
-its.a(arrayWithObjects[0].city);
-its.a('--------------------', false);
-its.a('----- arrayWithObjects[0] -----', false);
-its.a(arrayWithObjects[1])
-its.a('--------------------', false);
-its.a('----- arrayWithObjects -----', false);
-its.a(arrayWithObjects);
-/*
-
-// -- Massive Object Test -- //
 var bigobj = {
   "id.2467": 2467,
   "businessId.2467": [1341,222,32,444],
@@ -443,6 +490,3 @@ var bigobj = {
   }
 };
 //its.a(bigobj);
-
-
-*/

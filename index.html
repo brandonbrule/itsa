@@ -8,14 +8,93 @@
   <title>Its.A Error Reporting</title>
 
   <meta name="robots" content="noindex">
+<link rel="stylesheet" href="http://brandonbrule.com/css/style.css" media="screen" type="text/css" />
+  <style>
+  h1 span {
+    text-transform: none;
+  }
+
+  h2 {
+    text-transform: none;
+  }
+
+  ul {
+    text-align: left;
+  }
+
+  #its-wrapper ul {
+    font-family: arial, helvetica;
+    text-align: left;
+    padding: 0 0 0 2em;
+    margin: 0;
+    list-style: none;
+    font-size: 16px;
+  }
+  #its-wrapper li {
+    margin: 0 0;
+    padding: 0.25em;
+    border-bottom: 1px solid #ececec;
+  }
+  #its-wrapper pre {
+    margin: 0;
+    border: 3px solid #aa0000;
+    font-size: 16px;
+  }
+</style>
 
 </head>
 
 <body>
 
-<h1>Better Alerts</h1>
-<h2>its.a(whateverYouLikeFriend);</h2>
-<pre>
+<header>
+  <h1><span>its.a();</span> <br>A Friendlier ALERT with<br> Type Detection</h1>
+  <h2>its.a(whateverYouWantPal);</h2>
+</header>
+  <p>Sometimes you want to know hey is this a number? Is it really true? Am I even calling the right thing?</p>
+  <p>Typing console.log and opening the console seems like a lot of work and I don't want to close an alert.</p>
+  <p>Well... its.a('badum-ching');</p>
+  <hr>
+    <h4>From simple variables</h4>
+<pre class="prettyprint">
+var texty = 'This is a String variable';
+its.a(texty);
+</pre>
+    <h4>To more complex objects</h4>
+<pre class="prettyprint">
+var multiStructuredObject = { 
+  foo:"bar",
+  foo2: "foo2",
+  arr:[1,2,3],
+  subo: {
+    foo2:"bar2",
+    anotherfoo:"bar3",
+    newArr:[1,2,3],
+    subsubo: {
+      foo3: "bar3"
+    }
+  }
+};
+its.a(multiStructuredObject);
+</pre>
+    <h4>Remove all messages</h4>
+<pre class="prettyprint">
+its.clearAll();
+</pre>
+    <hr>
+<h3>Advantages its.a(); has over alert();</h3>
+<ul>
+  <li>It doesn't alert you.</li>
+  <li>It will traverse all the properties of your arrays and objects.</li>
+  <li>It has accurate type detection.</li>
+  <li>It is built entirely in codepen and its.a nice addition for live reload environments, designed to reduce opening the inspector tab.</li>
+</ul>
+<h3>Advantages its.a(); has over console.log();</h3>
+  <ul>
+    <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
+    <li>Additional type detection included in console.log, objects and arrays do not include this and are left alone for better console.log traversal.</li>
+</ul>
+      <hr>  
+<pre class="prettyprint">
 // ------- Usage Examples ------- //
 // ------------------------------ //
   
@@ -30,6 +109,7 @@
 // -- Configure Type Detection Example -- //
 var testDefaultMessage = 'Default Message';
 its.a(testDefaultMessage);
+  
 var testTypeDetectionOff = 'Type Detection set to False';
 its.a(testTypeDetectionOff,false);
 
@@ -57,7 +137,7 @@ var itsNotABooleon = 'TRUE';
 its.a(itsNotABooleon);
 
 var falseTest = false;
-its.a(false);
+its.a(falseTest);
 
 var alsoNotABooleon = 'FALSE';
 its.a(alsoNotABooleon);
@@ -79,6 +159,10 @@ var arr = [
 ];
 its.a(arr);
 
+// -- Array Type Test -- //
+var newArray = [ 1, 'hello', true ];
+its.a(newArray);
+  
 
 // -- Simple Object Test -- //
 var ObjectTest =
@@ -93,12 +177,12 @@ its.a(ObjectTest);
 
 // -- Object containaining a variety of properties types -- //
 var multiStructuredObject = { 
-  foo:"bar",
+  foo: "bar",
   foo2: "foo2",
-  arr:[1,2,3],
+  arr: [1,2,3],
   subo: {
-    foo2:"bar2",
-    anotherfoo:"bar3",
+    foo2: "bar2",
+    anotherfoo: "bar3",
     newArr:[1,2,3],
     subsubo: {
       foo3: "bar3"
@@ -120,7 +204,6 @@ var arrayWithObjects = [{
    "zip": 00010,
    "price": 962500
 }];
-/*
 its.a('----- arrayWithObjects[0].city -----', false);
 its.a(arrayWithObjects[0].city);
 its.a('--------------------', false);
@@ -129,9 +212,9 @@ its.a(arrayWithObjects[1])
 its.a('--------------------', false);
 its.a('----- arrayWithObjects -----', false);
 its.a(arrayWithObjects);
-/*
 
-// -- Massive Object Test -- //
+
+// -- Big Object Test -- //
 var bigobj = {
   "id.2467": 2467,
   "businessId.2467": [1341,222,32,444],
@@ -319,8 +402,14 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
-//its.a(bigobj);
+its.a(bigobj);
 </pre>
+  
+  
+  
+  
+  <script src="http://brandonbrule.com/syntax-highlight/prettify.js"></script>
+  <script>prettyPrint();</script> 
 
   <script src="js/itsa.js"></script>
 
