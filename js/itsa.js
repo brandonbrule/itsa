@@ -1,10 +1,16 @@
-//-// -------------- its.a -------------- //-//
+
 var its_container_wrapper = document.createElement('div');
     its_container_wrapper.setAttribute("id", "its-wrapper");
     its_container_wrapper.style.background = 'white';
     document.body.insertBefore(its_container_wrapper, document.body.firstChild);
 
+// If I want a custom element to display messages
+// Create an element with the id="its-wrapper"
+//var its_container_wrapper = document.getElementById('its-wrapper');
 
+
+
+//-// -------------- its.a -------------- //-//
 var its = {
   
   // -- API Useage -- //
