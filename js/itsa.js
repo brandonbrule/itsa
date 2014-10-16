@@ -1,4 +1,10 @@
 //-// -------------- its.a -------------- //-//
+var its_container_wrapper = document.createElement('div');
+    its_container_wrapper.setAttribute("id", "its-wrapper");
+    its_container_wrapper.style.background = 'white';
+    document.body.insertBefore(its_container_wrapper, document.body.firstChild);
+
+
 var its = {
   
   // -- API Useage -- //
@@ -13,8 +19,7 @@ var its = {
     its.appendContent( '// ---------------------------------------------------------------- //');
   },
   message: function(heading, message){
-    var errorContainer = document.getElementById('its-wrapper'),
-        wrapper = document.createElement('div'),
+    var wrapper = document.createElement('div'),
         headingElement = document.createElement('div'),
         headingText = document.createTextNode(heading),
         messageElement = document.createElement('pre'),
@@ -38,7 +43,7 @@ var its = {
     messageElement.appendChild(messageText);
     wrapper.appendChild(headingElement);
     wrapper.appendChild(messageElement);
-    errorContainer.appendChild(wrapper);
+    its_container_wrapper.appendChild(wrapper);
   },
   // Clear The Entire Error Board
   clearAll: function(){
@@ -98,8 +103,7 @@ var its = {
   // Creates and Appends all the information for standard things
   appendContent : function(ctx, checkToAppendCloseButton){
     // Output Elements
-    var errorContainer = document.getElementById('its-wrapper'),
-        container = document.createElement('div'),
+    var container = document.createElement('div'),
         content = document.createTextNode(ctx),
         closeButton;
     
@@ -116,18 +120,17 @@ var its = {
     // Style and Append
     this.styleContent(container);
     container.appendChild(content);
-    errorContainer.appendChild(container);
+    its_container_wrapper.appendChild(container);
     
     //-- Insert the results as the first element in body
-   errorContainer.insertBefore(container, container.nextSibling);
+   its_container_wrapper.insertBefore(container, container.nextSibling);
   },
   
   
   
   // -- HTML Element Message Handeling -- //
-  htmlElement:function(ctx){
-    var errorContainer = document.getElementById('its-wrapper'),
-        wrapper = document.createElement('div'),
+  htmlElement:function(ctx, container){
+    var wrapper = document.createElement('div'),
         heading = document.createElement('div'),
         headingText,
         pre = document.createElement('pre'),
@@ -157,7 +160,7 @@ var its = {
     pre.appendChild(elementToString);
     wrapper.appendChild(heading);
     wrapper.appendChild(pre);
-    errorContainer.appendChild(wrapper);
+    container.appendChild(wrapper);
   },
   
   
@@ -168,6 +171,7 @@ var its = {
     object.style.padding = '10px';
     object.style.border = '3px solid rgb(170, 0, 0)';
     object.style.margin = '0';
+    object.style.background = '#fff';
   },
   // Object Traversal and Nesting
   // Basically - loop through object properties
@@ -208,13 +212,20 @@ var its = {
     }
     
   },
+
+
+  processHTMLCollection: function(ctx, objectContainer){
+    for (var i = 0, len = ctx.length; i < len; i++){
+      this.htmlElement(ctx[i], objectContainer);
+    }
+  },
   
   // Group Object and Array Results
   groupObjectTogether: function( ctx, type ){
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
-        objectContainer = document.createElement('ul');
+        objectContainer;
 
     // Header
     objectHeading.appendChild(objectHeadingText);
@@ -223,13 +234,19 @@ var its = {
 
     this.createCloseButton(objectWrapper);
 
-    // Traverse the object and process the results for display.
-    this.traverseObject(ctx, this.processObject, objectContainer);
-    this.styleObject(objectContainer);
 
+    if (type === 'htmlcollection'){
+      objectContainer = document.createElement('div');
+      this.processHTMLCollection(ctx, objectContainer);
+    } else {
+      objectContainer = document.createElement('ul');
+      // Traverse the object and process the results for display.
+      this.traverseObject(ctx, this.processObject, objectContainer);
+      this.styleObject(objectContainer);
+    }
     objectWrapper.appendChild(objectHeading);
     objectWrapper.appendChild(objectContainer);
-    elcontainer.appendChild(objectWrapper);
+    its_container_wrapper.appendChild(objectWrapper);
   },
   
   
@@ -251,7 +268,9 @@ var its = {
             // get XXXX from [object XXXX], and cache it
             || (cache[key] = key.slice(8, -1).toLowerCase()); 
     };
-  }(),  
+  }(),
+
+
   
  
   // -- Initialization function - its.a(thing); -- //
@@ -260,7 +279,7 @@ var its = {
     // Pass false to disable type detection.
     // its.a(whatever, false);
     var type;
-    if(toggleTypeCheck === false){
+    if( toggleTypeCheck === false ){
       type = '';
     }else{
       // Attach type (object, number, array, string, null)
@@ -268,14 +287,14 @@ var its = {
     }
     
     // Object/Array
-    if(type === 'object' || type === 'array'){
+    if( type === 'object' || type === 'array' || type === 'htmlcollection'){
       
       this.groupObjectTogether(ctx, type);
       //console.log(ctx);
    
     // HTML Element
-    } else if ( type === 'object:DOMelement'){
-      this.htmlElement(ctx);
+    } else if ( type === 'object:DOMelement' ){
+      this.htmlElement(ctx, its_container_wrapper);
       
     // Variables, Strings, Numbers, Booleon
     }else{
@@ -289,9 +308,7 @@ var its = {
   
 };
 
-var elcontainer = document.createElement('div');
-    elcontainer.setAttribute("id", "its-wrapper");
-    document.body.insertBefore(elcontainer, document.body.firstChild);
+
 
 // ==== TEST BED === //
 // Copy and paste tests here
@@ -301,6 +318,13 @@ its.message(
   'its.a()', 
   'An unintrusive alert window with more information and custom messaging api.'
 );
+
+var array = [1,{'test':'test'},4,2,4,6,7];
+
+
+var paragraphs = document.getElementsByTagName('p');
+its.a(paragraphs);
+its.a(array);
 
 var bigobj = {
   "id.2467": 2467,
