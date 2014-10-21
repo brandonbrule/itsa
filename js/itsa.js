@@ -204,8 +204,6 @@ var its = {
 
     keyStrong.appendChild(keyText);
     
-    // Button so you can tab through everything and use spacebar
-    // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
     propertyValueEl.appendChild(keyStrong);
     propertyValueEl.appendChild(text);
     
@@ -262,6 +260,9 @@ correctNestedObjectElements: function(){
   var nestedGrouping = document.querySelectorAll( '[data-traverse = nested-properties]' );
   
   for (var i = 1, len = nestedGrouping.length; i < len; i++){
+
+    // Button so you can tab through everything and use spacebar
+    // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
     var levelExpandTitleAndButton = document.createElement('button');
     levelExpandTitleAndButton.className = 'has-child-list';
     levelExpandTitleAndButton.setAttribute('type', 'button');
