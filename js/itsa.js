@@ -4,8 +4,10 @@ var its_container_wrapper = document.createElement('div');
     its_container_wrapper.style.background = 'white';
     document.body.insertBefore(its_container_wrapper, document.body.firstChild);
 
+
 // If I want a custom element to display messages
 // Create an element with the id="its-wrapper"
+
 //var its_container_wrapper = document.getElementById('its-wrapper');
 
 
@@ -21,7 +23,7 @@ var its = {
   subheading: function(ctx){
     its.appendContent( '// -- ' + ctx + ' -- //');
   },
-  line: function(){
+  linebreak: function(){
     its.appendContent( '// ---------------------------------------------------------------- //');
   },
   message: function(heading, message){
@@ -104,6 +106,7 @@ var its = {
     }else{
       ctx = ctx;
     }
+    console.log(ctx);
     return ctx;
   },
   // Creates and Appends all the information for standard things
@@ -183,55 +186,56 @@ var its = {
   // Basically - loop through object properties
   // Create and Append List Item of Information
   // Each sub object is appended in a nested ul.
-  processObject: function(key,value, objectContainer, objectSubContainer, objectFirstContainer){
+  processObject: function(key,value, objectContainer, objectFirstContainer){
+
     var objIterativeType = this.checkType(value),
         combined = ': ' + value + " (" + objIterativeType + ')',
         text = document.createTextNode(combined),
         keyStrong = document.createElement('strong'),
         li = document.createElement('li'),
         keyText = document.createTextNode(key);
-    
-    
-    objectContainer.appendChild(objectFirstContainer);
-    objectFirstContainer.appendChild(objectSubContainer);
-    objectContainer.appendChild(objectFirstContainer);
 
 
     keyStrong.appendChild(keyText);
 
     li.appendChild(keyStrong);
     li.appendChild(text);
-    
 
-    objectSubContainer.appendChild(li);
+    li.addEventListener("click", function(){
+      var childMenu = this.getElementsByTagName('ul')[0];
+      if (childMenu){
+        if(childMenu.style.display == 'block'){
+          childMenu.style.display = 'none';
+        }else {
+            childMenu.style.display = 'block';
+        }
+      }
+    });
+    objectFirstContainer.appendChild(li);
+
+    objectContainer.appendChild(objectFirstContainer);
   },
   traverseObject: function(ctx, processObject, objectContainer){
-    var objectSubContainer = document.createElement('ul'),
-        objectFirstContainer = document.createElement('li');
-    
+    var objectFirstContainer = document.createElement('ul');
+        objectFirstContainer.setAttribute('data-traverse','nested-properties');
+
+
     for (var key in ctx) {
-        its.processObject.apply(this,[key,ctx[key], objectContainer, objectSubContainer, objectFirstContainer]);
+        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer]);
         if (ctx[key] !== null && typeof(ctx[key])=="object") {
           var objectCtx = ctx[key];
-          this.traverseObject(objectCtx, its.processObject, objectSubContainer );
+          this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
         }
     }
     
   },
 
-
-  processHTMLCollection: function(ctx, objectContainer){
-    for (var i = 0, len = ctx.length; i < len; i++){
-      this.htmlElement(ctx[i], objectContainer);
-    }
-  },
-  
   // Group Object and Array Results
   groupObjectTogether: function( ctx, type ){
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
-        objectContainer;
+        objectContainer = document.createElement('div');
 
     // Header
     objectHeading.appendChild(objectHeadingText);
@@ -242,10 +246,8 @@ var its = {
 
 
     if (type === 'htmlcollection'){
-      objectContainer = document.createElement('div');
       this.processHTMLCollection(ctx, objectContainer);
     } else {
-      objectContainer = document.createElement('ul');
       // Traverse the object and process the results for display.
       this.traverseObject(ctx, this.processObject, objectContainer);
       this.styleObject(objectContainer);
@@ -255,6 +257,21 @@ var its = {
     its_container_wrapper.appendChild(objectWrapper);
   },
   
+correctNestedObjectElements: function(){
+  var nestedGrouping = document.querySelectorAll( '[data-traverse = nested-properties]' );
+  
+  for (var i = 1, len = nestedGrouping.length; i < len; i++){
+    nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
+  }
+},
+
+  processHTMLCollection: function(ctx, objectContainer){
+    for (var i = 0, len = ctx.length; i < len; i++){
+      this.htmlElement(ctx[i], objectContainer);
+    }
+  },
+  
+
   
   
   // -- Get the type of the input -- //
@@ -296,7 +313,7 @@ var its = {
     if( type === 'object' || type === 'array' || type === 'htmlcollection'){
       
       this.groupObjectTogether(ctx, type);
-      //console.log(ctx);
+      this.correctNestedObjectElements();
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
@@ -320,18 +337,130 @@ var its = {
 // Copy and paste tests here
 // Merge tests below after.
 
-its.message(
-  'its.a()', 
-  'An unintrusive alert window with more information and custom messaging api.'
-);
-
-var array = [1,{'test':'test'},4,2,4,6,7];
+//its.message(
+//  'its.a()', 
+ // 'An unintrusive alert window with more information and custom messaging api.'
+//);
 
 
 var paragraphs = document.getElementsByTagName('p');
-its.a(paragraphs);
-its.a(array);
+//its.a(paragraphs);
 
+// ------- Usage Examples ------- //
+// ------------------------------ //
+  
+// Default
+// it.a(whatever);
+  
+// Pass in false to disable type detection
+// its.a(whatever,false);
+
+var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+//its.a(x + ' × ' + y);
+
+  
+
+// -- Configure Type Detection Example -- //
+var testDefaultMessage = 'Default Message';
+//its.a(testDefaultMessage);
+  
+var testTypeDetectionOff = 'Type Detection set to False';
+//its.a(testTypeDetectionOff,false);
+
+  
+// -- String Test --//
+var texty = 'This is a String variable';
+//its.a(texty);
+  
+// -- Number Test -- //
+var number = 1;
+//its.a(number);
+
+
+// -- Number String Test -- //
+var numberString = '1';
+//its.a(numberString);
+
+
+// -- Booleon Test -- //
+var trueTest = true;
+//its.a(trueTest);
+
+var itsNotABooleon = 'true';
+//its.a(itsNotABooleon);
+
+var falseTest = false;
+//its.a(falseTest);
+
+var alsoNotABooleon = 'FALSE';
+//its.a(alsoNotABooleon);
+
+
+// -- Date Test -- //
+var date = new Date();
+//its.a(date);
+
+
+// -- Array Test -- //
+var newArray = [ 1, 'hello', true ];
+//its.a(newArray);
+
+// -- Array with objects -- //
+var arrayWithObjects = [
+  {
+   "city": "Dallas",
+   "state": "TX",
+   "zip": 75201,
+   "price": 162500
+  },
+  {
+   "city": "New York",
+   "state": "NY",
+   "zip": 00010,
+   "price": 962500
+  }
+];
+
+//its.a(arrayWithObjects);
+  
+
+// -- Simple Object Test -- //
+var ObjectTest =
+    {
+        "key1": {
+          "1":"The value of key1 in ObjectTest"},
+        "key2": "The value of key2 in ObjectTest",
+        "key3": "The value of key3 in ObjectTest"
+    };
+//its.a(ObjectTest);
+
+
+// -- Object containaining a variety of properties types -- //
+var multiStructuredObject = { 
+  foo: "bar",
+  foo2: "foo2",
+  arr: [1,2,3],
+  subo: {
+    foo2: "bar2",
+    anotherfoo: "bar3",
+    newArr:[1,2,3],
+    subsubo: {
+      foo3: "bar3"
+    }
+  }
+};
+its.a(multiStructuredObject);
+
+
+
+
+
+// -- Big Object Test -- //
 var bigobj = {
   "id.2467": 2467,
   "businessId.2467": [1341,222,32,444],
@@ -519,4 +648,4 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
-//its.a(bigobj);
+//its.a(ObjectTest);

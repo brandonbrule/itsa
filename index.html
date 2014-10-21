@@ -50,50 +50,59 @@
   <h1><span>its.a();</span> <br>A Friendlier ALERT with<br> Type Detection</h1>
   <h2>its.a(whateverYouWantPal);</h2>
 </header>
-  <p>Sometimes you want to know hey is this a number? Is it really true? Am I even calling the right thing?</p>
-  <p>Typing console.log and opening the console seems like a lot of work and I don't want to close an alert.</p>
-  <p>Well... its.a('badum-ching');</p>
-  <hr>
-    <h4>From simple variables</h4>
+
+<h4>String:</h4>
+<button onclick="its.a(numberString )">its.a(numberString );</button>
+<h4>Number:</h4>
+<button onclick="its.a(number)">its.a(number);</button>
+<h4>Boolean:</h4>
+<button onclick="its.a(trueTest)">its.a(trueTest);</button>
+<h4>Not:</h4>
+<button onclick="its.a(itsNotABooleon)">its.a(itsNotABooleon);</button>
 <pre class="prettyprint">
-var texty = 'This is a String variable';
-its.a(texty);
+// -- Number String Test -- //
+var numberString = '1';
+its.a(numberString);
+
+
+// -- Number Test -- //
+var number = 1;
+its.a(number);
+
+
+// -- Booleon Test -- //
+var trueTest = true;
+its.a(trueTest);
+
+var itsNotABooleon = 'true';
+its.a(itsNotABooleon);
 </pre>
-    <h4>To more complex objects</h4>
-<pre class="prettyprint">
-var multiStructuredObject = { 
-  foo:"bar",
-  foo2: "foo2",
-  arr:[1,2,3],
-  subo: {
-    foo2:"bar2",
-    anotherfoo:"bar3",
-    newArr:[1,2,3],
-    subsubo: {
-      foo3: "bar3"
-    }
-  }
-};
-its.a(multiStructuredObject);
-</pre>
-    <h4>Remove all messages</h4>
-<pre class="prettyprint">
-its.clearAll();
-</pre>
-    <hr>
+<hr>
+
 <h3>Advantages its.a(); has over alert();</h3>
 <ul>
   <li>It doesn't alert you.</li>
   <li>It will traverse all the properties of your arrays and objects.</li>
   <li>It has accurate type detection.</li>
-  <li>It is built entirely in codepen and its.a nice addition for live reload environments, designed to reduce opening the inspector tab.</li>
+  <li>It is built entirely in codepen and its.a() nice addition for live reload environments, designed to reduce opening the inspector tab.</li>
 </ul>
 <h3>Advantages its.a(); has over console.log();</h3>
   <ul>
     <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
-    <li>Additional type detection included in console.log, objects and arrays do not include this and are left alone for better console.log traversal.</li>
 </ul>
-      <hr> 
+  <hr>
+
+
+
+
+    <h4>Remove all messages</h4>
+<button onclick="its.clearAll()">its.clearAll();</button>
+<pre class="prettyprint">
+its.clearAll();
+</pre>
+    <hr>
+
+      <hr>  
 <pre class="prettyprint">
 // ------- Usage Examples ------- //
 // ------------------------------ //
