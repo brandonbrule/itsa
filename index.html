@@ -22,24 +22,43 @@
     text-align: left;
   }
 
-  #its-wrapper ul {
-    font-family: arial, helvetica;
-    text-align: left;
-    padding: 0 0 0 2em;
-    margin: 0;
-    list-style: none;
-    font-size: 16px;
-  }
-  #its-wrapper li {
-    margin: 0 0;
-    padding: 0.25em;
-    border-bottom: 1px solid #ececec;
-  }
-  #its-wrapper pre {
-    margin: 0;
-    border: 3px solid #aa0000;
-    font-size: 16px;
-  }
+#its-wrapper {
+  box-sizing: border-box;
+}
+#its-wrapper ul {
+  font-family: arial, helvetica;
+  text-align: left;
+  padding: 0 0 0 2em;
+  margin: 0;
+  list-style: none;
+  font-size: 16px;
+}
+#its-wrapper button {
+  border: none;
+  background: none;
+}
+#its-wrapper .has-child-list:hover {
+  cursor: pointer;
+}
+#its-wrapper .has-child-list:after {
+  content: '\25BE';
+  margin-left: 10px;
+}
+#its-wrapper li {
+  margin: 0 0;
+  padding: 0.25em;
+}
+#its-wrapper pre {
+  margin: 0;
+  border: 3px solid #aa0000;
+  font-size: 16px;
+}
+
+#its-wrapper {
+  width: 100%;
+  left: 0;
+  top: 0;
+}
 </style>
 
 </head>

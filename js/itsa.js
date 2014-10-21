@@ -193,16 +193,25 @@ var its = {
         text = document.createTextNode(combined),
         keyStrong = document.createElement('strong'),
         li = document.createElement('li'),
+        button = document.createElement('button'),
         keyText = document.createTextNode(key);
 
 
     keyStrong.appendChild(keyText);
+    
+    // Button so you can tab through everything and use spacebar
+    // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
+    button.setAttribute('type', 'button');
+    button.appendChild(keyStrong);
+    button.appendChild(text);
+    
+    li.appendChild(button);
 
-    li.appendChild(keyStrong);
-    li.appendChild(text);
-
-    li.addEventListener("click", function(){
-      var childMenu = this.getElementsByTagName('ul')[0];
+    
+    objectFirstContainer.appendChild(li);
+    
+    button.addEventListener("click", function(e){
+      var childMenu = this.parentNode.getElementsByTagName('ul')[0];
       if (childMenu){
         if(childMenu.style.display == 'block'){
           childMenu.style.display = 'none';
@@ -211,13 +220,13 @@ var its = {
         }
       }
     });
-    objectFirstContainer.appendChild(li);
 
     objectContainer.appendChild(objectFirstContainer);
   },
   traverseObject: function(ctx, processObject, objectContainer){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
+        objectFirstContainer.style.display='block';
 
 
     for (var key in ctx) {
@@ -244,7 +253,6 @@ var its = {
 
     this.createCloseButton(objectWrapper);
 
-
     if (type === 'htmlcollection'){
       this.processHTMLCollection(ctx, objectContainer);
     } else {
@@ -262,6 +270,7 @@ correctNestedObjectElements: function(){
   
   for (var i = 1, len = nestedGrouping.length; i < len; i++){
     nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
+    nestedGrouping[i].parentNode.firstChild.setAttribute('class','has-child-list');
   }
 },
 
@@ -454,7 +463,7 @@ var multiStructuredObject = {
     }
   }
 };
-its.a(multiStructuredObject);
+//its.a(multiStructuredObject);
 
 
 
@@ -648,4 +657,4 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
-//its.a(ObjectTest);
+its.a(bigobj);
