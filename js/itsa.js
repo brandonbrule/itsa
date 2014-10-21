@@ -195,12 +195,15 @@ var its = {
   processObject: function(key,value, objectContainer, objectFirstContainer){
 
     var objIterativeType = this.checkType(value),
-        combined = ': ' + value + " (" + objIterativeType + ')',
+        combined = ': ' + value + ' ',
+        type = document.createElement('span'),
+        typeText = document.createTextNode( '(' + objIterativeType + ')'),
         text = document.createTextNode(combined),
         keyStrong = document.createElement('strong'),
         li = document.createElement('li'),
         propertyValueEl = document.createElement('span');
         keyText = document.createTextNode(key);
+
 
     keyStrong.appendChild(keyText);
     
@@ -208,6 +211,10 @@ var its = {
     propertyValueEl.appendChild(text);
     
     li.appendChild(propertyValueEl);
+
+    type.appendChild(typeText);
+    type.style.color = 'rgb(170, 0, 0)';
+    li.appendChild(type);
 
     
     objectFirstContainer.appendChild(li);
@@ -250,14 +257,16 @@ var its = {
       // Traverse the object and process the results for display.
       this.traverseObject(ctx, this.processObject, objectContainer);
       this.styleObject(objectContainer);
+
+      this.correctNestedObjectElements(objectContainer);
     }
     objectWrapper.appendChild(objectHeading);
     objectWrapper.appendChild(objectContainer);
     its_container_wrapper.appendChild(objectWrapper);
   },
   
-correctNestedObjectElements: function(){
-  var nestedGrouping = document.querySelectorAll( '[data-traverse = nested-properties]' );
+correctNestedObjectElements: function(objectContainer){
+  var nestedGrouping = objectContainer.querySelectorAll( '[data-traverse = nested-properties]' );
   
   for (var i = 1, len = nestedGrouping.length; i < len; i++){
 
@@ -268,7 +277,9 @@ correctNestedObjectElements: function(){
     levelExpandTitleAndButton.setAttribute('type', 'button');
     levelExpandTitleAndButton.style.cursor = 'pointer'; 
     levelExpandTitleAndButton.appendChild(nestedGrouping[i].previousSibling.firstChild);
-    nestedGrouping[i].previousSibling.appendChild(levelExpandTitleAndButton);
+
+    console.log(nestedGrouping[i].previousSibling);
+    nestedGrouping[i].previousSibling.insertBefore(levelExpandTitleAndButton, nestedGrouping[i].previousSibling.firstChild);
     //nestedGrouping[i].previousSibling.firstChild.remove();
     nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
     nestedGrouping[i].parentNode.firstChild.setAttribute('class','has-child-list');
@@ -334,7 +345,6 @@ correctNestedObjectElements: function(){
     if( type === 'object' || type === 'array' || type === 'htmlcollection'){
       
       this.groupObjectTogether(ctx, type);
-      this.correctNestedObjectElements();
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
@@ -669,4 +679,5 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
+its.a(bigobj);
 its.a(bigobj);
