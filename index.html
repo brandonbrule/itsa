@@ -8,57 +8,15 @@
   <title>Its.A Error Reporting</title>
 
   <meta name="robots" content="noindex">
-<link rel="stylesheet" href="http://brandonbrule.com/css/style.css" media="screen" type="text/css" />
+
   <style>
-  h1 span {
-    text-transform: none;
-  }
 
-  h2 {
-    text-transform: none;
-  }
-
-  ul {
-    text-align: left;
-  }
-
-#its-wrapper {
-  box-sizing: border-box;
-}
-#its-wrapper ul {
-  font-family: arial, helvetica;
-  text-align: left;
-  padding: 0 0 0 2em;
-  margin: 0;
-  list-style: none;
-  font-size: 16px;
-}
-#its-wrapper button {
-  border: none;
-  background: none;
-}
-#its-wrapper .has-child-list:hover {
-  cursor: pointer;
-}
+h3{ font-size: 1.5em; background: yellow;}
 #its-wrapper .has-child-list:after {
   content: '\25BE';
   margin-left: 10px;
 }
-#its-wrapper li {
-  margin: 0 0;
-  padding: 0.25em;
-}
-#its-wrapper pre {
-  margin: 0;
-  border: 3px solid #aa0000;
-  font-size: 16px;
-}
 
-#its-wrapper {
-  width: 100%;
-  left: 0;
-  top: 0;
-}
 </style>
 
 </head>
@@ -78,6 +36,8 @@
 <button onclick="its.a(trueTest)">its.a(trueTest);</button>
 <h4>Not:</h4>
 <button onclick="its.a(itsNotABooleon)">its.a(itsNotABooleon);</button>
+<button onclick="its.a(document.body)">its.a(document.body);</button>
+<button onclick="its.a(multiStructuredObject)">its.a(multiStructuredObject);</button>
 <pre class="prettyprint">
 // -- Number String Test -- //
 var numberString = '1';

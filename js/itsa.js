@@ -2,6 +2,7 @@
 var its_container_wrapper = document.createElement('div');
     its_container_wrapper.setAttribute("id", "its-wrapper");
     its_container_wrapper.style.background = 'white';
+    its_container_wrapper.style.boxSizing = 'border-box';
     document.body.insertBefore(its_container_wrapper, document.body.firstChild);
 
 
@@ -64,9 +65,13 @@ var its = {
   // Close Button Styles
   styleCloseButton: function(closeButton){
     closeButton.style.position = 'absolute';
-    closeButton.style.top = '5px';
-    closeButton.style.right = '0.85%';
+    closeButton.style.top = '3px';
+    closeButton.style.right = '3px';
     closeButton.style.zIndex = '10';
+    closeButton.style.color = 'white';
+    closeButton.style.padding = '2px 5px';
+    closeButton.style.border = '1px solid white';
+    closeButton.style.background = 'none';
   },
   // Create Close Button Element
   createCloseButton: function(parentContainer){
@@ -181,6 +186,7 @@ var its = {
     object.style.border = '3px solid rgb(170, 0, 0)';
     object.style.margin = '0';
     object.style.background = '#fff';
+    object.style.overflow = 'scroll';
   },
   // Object Traversal and Nesting
   // Basically - loop through object properties
@@ -193,33 +199,20 @@ var its = {
         text = document.createTextNode(combined),
         keyStrong = document.createElement('strong'),
         li = document.createElement('li'),
-        button = document.createElement('button'),
+        propertyValueEl = document.createElement('span');
         keyText = document.createTextNode(key);
-
 
     keyStrong.appendChild(keyText);
     
     // Button so you can tab through everything and use spacebar
     // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
-    button.setAttribute('type', 'button');
-    button.appendChild(keyStrong);
-    button.appendChild(text);
+    propertyValueEl.appendChild(keyStrong);
+    propertyValueEl.appendChild(text);
     
-    li.appendChild(button);
+    li.appendChild(propertyValueEl);
 
     
     objectFirstContainer.appendChild(li);
-    
-    button.addEventListener("click", function(e){
-      var childMenu = this.parentNode.getElementsByTagName('ul')[0];
-      if (childMenu){
-        if(childMenu.style.display == 'block'){
-          childMenu.style.display = 'none';
-        }else {
-            childMenu.style.display = 'block';
-        }
-      }
-    });
 
     objectContainer.appendChild(objectFirstContainer);
   },
@@ -269,8 +262,26 @@ correctNestedObjectElements: function(){
   var nestedGrouping = document.querySelectorAll( '[data-traverse = nested-properties]' );
   
   for (var i = 1, len = nestedGrouping.length; i < len; i++){
+    var levelExpandTitleAndButton = document.createElement('button');
+    levelExpandTitleAndButton.className = 'has-child-list';
+    levelExpandTitleAndButton.setAttribute('type', 'button');
+    levelExpandTitleAndButton.style.cursor = 'pointer'; 
+    levelExpandTitleAndButton.appendChild(nestedGrouping[i].previousSibling.firstChild);
+    nestedGrouping[i].previousSibling.appendChild(levelExpandTitleAndButton);
+    //nestedGrouping[i].previousSibling.firstChild.remove();
     nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
     nestedGrouping[i].parentNode.firstChild.setAttribute('class','has-child-list');
+
+    levelExpandTitleAndButton.addEventListener("click", function(e){
+      var childMenu = this.parentNode.getElementsByTagName('ul')[0];
+      if (childMenu){
+        if(childMenu.style.display == 'block'){
+          childMenu.style.display = 'none';
+        }else {
+            childMenu.style.display = 'block';
+        }
+      }
+    });
   }
 },
 
