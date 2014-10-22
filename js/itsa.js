@@ -207,16 +207,15 @@ var its = {
         if (toggleTypeCheck === false){
           typeText = document.createTextNode( '' );
         } else{
-          typeText = document.createTextNode( '(' + objIterativeType + ')');
+          typeText = document.createTextNode( '(' + objIterativeType + ')')
         }
 
 
     keyStrong.appendChild(keyText);
     
-    propertyValueEl.appendChild(keyStrong);
-    propertyValueEl.appendChild(text);
+    li.appendChild(keyStrong);
+    li.appendChild(text);
     
-    li.appendChild(propertyValueEl);
 
     type.appendChild(typeText);
     type.style.color = 'rgb(170, 0, 0)';
@@ -287,7 +286,6 @@ correctNestedObjectElements: function(objectContainer){
     levelExpandTitleAndButton.style.cursor = 'pointer'; 
     levelExpandTitleAndButton.appendChild(nestedGrouping[i].previousSibling.firstChild);
 
-    console.log(nestedGrouping[i].previousSibling);
     nestedGrouping[i].previousSibling.insertBefore(levelExpandTitleAndButton, nestedGrouping[i].previousSibling.firstChild);
     //nestedGrouping[i].previousSibling.firstChild.remove();
     nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
@@ -307,6 +305,7 @@ correctNestedObjectElements: function(objectContainer){
 },
 
   processHTMLCollection: function(ctx, objectContainer){
+    console.log(ctx);
     for (var i = 0, len = ctx.length; i < len; i++){
       this.htmlElement(ctx[i], objectContainer);
     }
@@ -349,6 +348,7 @@ correctNestedObjectElements: function(objectContainer){
     if( type === 'object' || type === 'array' || type === 'htmlcollection'){
 
       this.groupObjectTogether(ctx, type, toggleTypeCheck);
+      console.log(ctx);
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
@@ -376,13 +376,13 @@ correctNestedObjectElements: function(objectContainer){
 // Copy and paste tests here
 // Merge tests below after.
 
-//its.message(
-//  'its.a()', 
- // 'An unintrusive alert window with more information and custom messaging api.'
-//);
+its.message(
+  'its.a()', 
+  'An unintrusive alert window with more information and custom messaging api.'
+);
 
 
-var paragraphs = document.getElementsByTagName('p');
+var paragraphs = document.getElementsByTagName('li');
 //its.a(paragraphs);
 
 // ------- Usage Examples ------- //
@@ -687,5 +687,5 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
-its.a(bigobj, false);
-its.a(bigobj);
+//its.a(bigobj, false);
+//its.a(bigobj);

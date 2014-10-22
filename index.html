@@ -11,10 +11,254 @@
 
   <style>
 
-h3{ font-size: 1.5em; background: yellow;}
 #its-wrapper .has-child-list:after {
   content: '\25BE';
   margin-left: 10px;
+}
+
+
+
+// Demo Styles
+body{
+  padding:2%;
+  color:#3d3d3d;
+  background:#fefefe;
+  line-height:1.5;
+  font-size: 1em;
+  
+  margin:0 auto;
+  max-width:800px;
+  text-rendering: optimizeLegibility;
+}
+h1,h2{
+  margin:0.25em 0;
+  font-family: helvetica, arial, sans-serif;
+}
+h1,h2,h5{ 
+  text-transform:uppercase;
+}
+h1{
+  font-size: 3em;
+}
+h2{
+  font-size:1.55em
+}
+h3{
+  font-size: 1.5em; background: yellow;
+}
+
+h4{
+  display:inline;
+  margin:0 0 0.25em 0;
+  line-height:1.25;
+  font-size:0.75em;
+  font-weight:800;
+}
+h3 + h4{
+  font-weight:300;
+  margin-bottom:1em;
+}
+h5{
+  border-bottom:1px solid #eee;
+  font-size:0.75em;
+  margin-bottom:0;
+  padding-bottom:0.5em;
+  text-align:center;
+}
+p{
+  font-family:georgia;
+  font-size:0.85em;
+  line-height:1.75;
+  margin:1.5em 0; 
+}
+h4 + p, h4 + pre{
+  margin-top:0;
+}
+a{
+  color:#0253be;
+}
+a:hover{
+  color:#0067f0;
+}
+
+hr{
+  margin:1.5em 0;
+  border:1px solid #eee;
+}
+
+pre{
+  text-align:left;
+  background:#f1f1f1;
+  padding:1em;
+  margin:1.5em 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;  
+  word-wrap: break-word;
+}
+.command-line pre{
+  background:#111;
+  color:#fff;
+}
+
+header{
+  padding-bottom:5%;
+  margin-bottom:5%;
+  border-bottom:1px solid #eee;
+}
+header h1, header h2{ text-align:center; }
+
+/* CSS Prettify */
+/* Hemisu Light */
+/* Original theme - http://noahfrederick.com/vim-color-scheme-hemisu/ */
+/* Pretty printing styles. Used with prettify.js. */
+/* SPAN elements with the classes below are added by prettyprint. */
+/* plain text */
+.pln {
+  color: #111111;
+}
+
+@media screen {
+  /* string content */
+  .str {
+    color: #739200;
+  }
+
+  /* a keyword */
+  .kwd {
+    color: #739200;
+  }
+
+  /* a comment */
+  .com {
+    color: #999999;
+  }
+
+  /* a type name */
+  .typ {
+    color: #ff0055;
+  }
+
+  /* a literal value */
+  .lit {
+    color: #538192;
+  }
+
+  /* punctuation */
+  .pun {
+    color: #111111;
+  }
+
+  /* lisp open bracket */
+  .opn {
+    color: #111111;
+  }
+
+  /* lisp close bracket */
+  .clo {
+    color: #111111;
+  }
+
+  /* a markup tag name */
+  .tag {
+    color: #111111;
+  }
+
+  /* a markup attribute name */
+  .atn {
+    color: #739200;
+  }
+
+  /* a markup attribute value */
+  .atv {
+    color: #ff0055;
+  }
+
+  /* a declaration */
+  .dec {
+    color: #111111;
+  }
+
+  /* a variable name */
+  .var {
+    color: #111111;
+  }
+
+  /* a function name */
+  .fun {
+    color: #538192;
+  }
+}
+/* Use higher contrast and text-weight for printable form. */
+@media print, projection {
+  .str {
+    color: #006600;
+  }
+
+  .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+
+  .lit {
+    color: #004444;
+  }
+
+  .pun, .opn, .clo {
+    color: #444400;
+  }
+
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+
+  .atn {
+    color: #440044;
+  }
+
+  .atv {
+    color: #006600;
+  }
+}
+/* Style */
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* IE indents via margin-left */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L4,
+li.L5,
+li.L6,
+li.L7,
+li.L8,
+li.L9 {
+  /* */
+}
+
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 {
+  /* */
 }
 
 </style>
@@ -28,37 +272,6 @@ h3{ font-size: 1.5em; background: yellow;}
   <h2>its.a(whateverYouWantPal);</h2>
 </header>
 
-<h4>String:</h4>
-<button onclick="its.a(numberString )">its.a(numberString );</button>
-<h4>Number:</h4>
-<button onclick="its.a(number)">its.a(number);</button>
-<h4>Boolean:</h4>
-<button onclick="its.a(trueTest)">its.a(trueTest);</button>
-<h4>Not:</h4>
-<button onclick="its.a(itsNotABooleon)">its.a(itsNotABooleon);</button>
-<button onclick="its.a(newArray)">its.a(newArray);</button>
-<button onclick="its.a(document.body)">its.a(document.body);</button>
-<button onclick="its.a(multiStructuredObject)">its.a(multiStructuredObject);</button>
-<pre class="prettyprint">
-// -- Number String Test -- //
-var numberString = '1';
-its.a(numberString);
-
-
-// -- Number Test -- //
-var number = 1;
-its.a(number);
-
-
-// -- Booleon Test -- //
-var trueTest = true;
-its.a(trueTest);
-
-var itsNotABooleon = 'true';
-its.a(itsNotABooleon);
-</pre>
-<hr>
-
 <h3>Advantages its.a(); has over alert();</h3>
 <ul>
   <li>It doesn't alert you.</li>
@@ -70,89 +283,76 @@ its.a(itsNotABooleon);
   <ul>
     <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
 </ul>
-  <hr>
 
-
-
-
-    <h4>Remove all messages</h4>
-<button onclick="its.clearAll()">its.clearAll();</button>
+<h4>String:</h4>
+<button onclick="its.a(numberString )">its.a(numberString );</button>
 <pre class="prettyprint">
-its.clearAll();
+// -- Number String Test -- //
+var numberString = '1';
+its.a(numberString);
 </pre>
-    <hr>
 
-      <hr>  
+<h4>Number:</h4>
+<button onclick="its.a(number)">its.a(number);</button>
 <pre class="prettyprint">
-// ------- Usage Examples ------- //
-// ------------------------------ //
-  
-// Default
-// it.a(whatever);
-  
-// Pass in false to disable type detection
-// its.a(whatever,false);
-
-  
-
-// -- Configure Type Detection Example -- //
-var testDefaultMessage = 'Default Message';
-its.a(testDefaultMessage);
-  
-var testTypeDetectionOff = 'Type Detection set to False';
-its.a(testTypeDetectionOff,false);
-
-  
-// -- String Test --//
-var texty = 'This is a String variable';
-its.a(texty);
-  
-  
 // -- Number Test -- //
 var number = 1;
 its.a(number);
 
+</pre>
 
-// -- Number String Test -- //
-var numberString = '1';
-its.a(numberString);
-
-
+<h4>Boolean:</h4>
+<button onclick="its.a(trueTest)">its.a(trueTest);</button>
+<pre class="prettyprint">
 // -- Booleon Test -- //
 var trueTest = true;
 its.a(trueTest);
+</pre>
 
-var itsNotABooleon = 'TRUE';
+<h4>Not a Boolean:</h4>
+<button onclick="its.a(itsNotABooleon)">its.a(itsNotABooleon);</button>
+<pre class="prettyprint">
+var itsNotABooleon = 'true';
 its.a(itsNotABooleon);
+</pre>
 
-var falseTest = false;
-its.a(falseTest);
-
-var alsoNotABooleon = 'FALSE';
-its.a(alsoNotABooleon);
-
-
+<h4>Date</h4>
+<button onclick="its.a(date)">its.a(date);</button>
+<pre class="prettyprint">
 // -- Date Test -- //
 var date = new Date();
 its.a(date);
+</pre>
 
-
-// --  Element Test -- //
-its.a(document.body);
-
-
-// -- Array Test -- //
-var arr = [
-  "Eggs", 
-  "Milk"
-];
-its.a(arr);
-
+<h4>Array</h4>
+<button onclick="its.a(newArray)">its.a(newArray);</button>
+<pre class="prettyprint">
 // -- Array Type Test -- //
 var newArray = [ 1, 'hello', true ];
 its.a(newArray);
-  
+</pre>
 
+<h4>arrayWithObjects </h4>
+<button onclick="its.a(arrayWithObjects )">its.a(arrayWithObjects );</button>
+<pre class="prettyprint">
+// -- Array with objects -- //
+var arrayWithObjects = [{
+   "city": "Dallas",
+   "state": "TX",
+   "zip": 75201,
+   "price": 162500
+},{
+   "city": "New York",
+   "state": "NY",
+   "zip": 00010,
+   "price": 962500
+}];
+its.a(arrayWithObjects);
+</pre>
+
+<h4>Simple Object</h4>
+<button onclick="its.a(ObjectTest )">its.a(ObjectTest );</button>
+<pre class="prettyprint">
 // -- Simple Object Test -- //
 var ObjectTest =
     {
@@ -162,8 +362,11 @@ var ObjectTest =
         "key3": "The value of key3 in ObjectTest"
     };
 its.a(ObjectTest);
+</pre>
 
-
+<h4>More Complex Object</h4>
+<button onclick="its.a(multiStructuredObject)">its.a(multiStructuredObject);</button>
+<pre class="prettyprint">
 // -- Object containaining a variety of properties types -- //
 var multiStructuredObject = { 
   foo: "bar",
@@ -179,221 +382,32 @@ var multiStructuredObject = {
   }
 };
 its.a(multiStructuredObject);
-
-
-// -- Array with objects -- //
-var arrayWithObjects = [{
-   "city": "Dallas",
-   "state": "TX",
-   "zip": 75201,
-   "price": 162500
-},{
-   "city": "New York",
-   "state": "NY",
-   "zip": 00010,
-   "price": 962500
-}];
-its.a('----- arrayWithObjects[0].city -----', false);
-its.a(arrayWithObjects[0].city);
-its.a('--------------------', false);
-its.a('----- arrayWithObjects[0] -----', false);
-its.a(arrayWithObjects[1])
-its.a('--------------------', false);
-its.a('----- arrayWithObjects -----', false);
-its.a(arrayWithObjects);
-
-
-// -- Big Object Test -- //
-var bigobj = {
-  "id.2467": 2467,
-  "businessId.2467": [1341,222,32,444],
-  "city.2467": "Austin",
-  "state.2467": "TX",
-  "zip.2467": 78704,
-  "country.2467": "us",
-  "lat.2467": 30.24278,
-  "lon.2467": {
-    "id.4524": 4524,
-    "businessId.4524": 1791,
-    "city.4524": "Austin",
-    "state.4524": "TX",
-    "zip.4524": 78613,
-    "country.4524": null,
-    "lat.4524": 30.530402,
-    "lon.4524": -97.812738,
-    "id.348": {
-      "businessId.348": 241,
-      "city.348": "Austin",
-      "state.348": "TX",
-      "zip.348": 78756,
-      "country.348": "us",
-      "lat.348": 30.307886,
-      "lon.348": -97.74127,
-      "id.1895": 1895,
-      "businessId.1895": 1140,
-      "city.1895": "Austin",
-      "state.1895": "TX",
-      "zip.1895": 73301,
-      "country.1895": "us",
-      "lat.1895": 30.268039,
-      "lon.1895": -97.743193,
-      "id.4030": 4030,
-      "businessId.4030": 1491,
-      "city.4030": "Austin",
-      "state.4030": "TX",
-      "zip.4030": null,
-      "country.4030": null,
-      "lat.4030": 30.284772,
-      "lon.4030": -97.737265,
-      "id.2965": 2965,
-      "businessId.2965": 672,
-      "city.2965": "Lubbock",
-      "state.2965": "TX",
-      "zip.2965": null,
-      "country.2965": null,
-      "lat.2965": 33.578015,
-      "lon.2965": -101.791996,
-      "id.305": 305
-    }
-  },
-  "businessId.305": 209,
-  "city.305": "Austin",
-  "state.305": "TX",
-  "zip.305": 78701,
-  "country.305": "us",
-  "lat.305": {
-    "lon.305": -97.742081,
-    "id.3031": 3031,
-    "businessId.3031": 1629,
-    "city.3031": "Austin",
-    "state.3031": "TX",
-    "zip.3031": 78705,
-    "country.3031": null,
-    "lat.3031": 30.282835,
-    "lon.3031": -97.741605,
-    "id.1143": {
-      "lat.1143": 0,
-      "lon.1143": 0,
-      "id.2147": 2147,
-      "businessId.2147": 1243,
-      "city.2147": "Austin",
-      "state.2147": "TX",
-      "zip.2147": 78752,
-      "country.2147": "us",
-      "lat.2147": 0,
-      "lon.2147": 0,
-      "id.4205": 4205,
-      "businessId.4205": 244,
-      "city.4205": "Austin",
-      "state.4205": "TX",
-      "zip.4205": null,
-      "country.4205": {
-        "country.1143": "us",
-        "country.4223": null,
-        "lat.4223": 34.032773,
-        "lon.4223": -84.340744,
-        "id.4330": 4330,
-        "businessId.4330": 675,
-        "city.4330": "Austin",
-        "state.4330": "TX",
-        "zip.4330": 78749,
-        "country.4330": null,
-        "lat.4330": 30.223876,
-        "lon.4330": -97.839455,
-        "id.2946": 2946,
-        "businessId.2946": 422,
-        "city.2946": "Austin",
-        "state.2946": "TX",
-        "zip.2946": 78722,
-        "country.2946": null,
-        "lat.2946": 30.283645,
-        "lon.2946": -97.722516,
-        "id.1908": 1908,
-        "businessId.1908": {
-          "city.1908": "Austin",
-          "state.1908": "TX",
-          "zip.1908": 78702,
-          "country.1908": "us",
-          "lat.1908": 0,
-          "lon.1908": 0,
-          "id.4202": 4202,
-          "businessId.4202": 908,
-          "city.4202": "Austin",
-          "state.4202": "TX",
-          "zip.4202": 78735,
-          "country.4202": null,
-          "lat.4202": 30.239411,
-          "lon.4202": -97.831761,
-          "id.3986": 3986,
-          "businessId.3986": 1393,
-          "city.3986": "Austin",
-          "state.3986": "TX",
-          "zip.3986": 78748,
-          "country.3986": {
-            "lat.3986": 30.173342,
-            "lon.3986": -97.821909,
-            "id.1337": 1337,
-            "businessId.1337": 866,
-            "city.1337": "Austin",
-            "state.1337": "TX",
-            "zip.1337": 78704,
-            "country.1337": "us",
-            "lat.1337": 30.235404,
-            "lon.1337": -97.741482,
-            "id.4003": 4003,
-            "businessId.4003": 842,
-            "city.4003": "Austin",
-            "state.4003": "TX",
-            "zip.4003": 78701,
-            "country.4003": null,
-            "lat.4003": 30.265605,
-            "lon.4003": -97.74829,
-            "id.2164": 2164,
-            "businessId.2164": {
-              "lat.2645": 30.497891,
-              "lon.2645": -97.775882,
-              "id.2430": 2430,
-              "businessId.2430": 1315,
-              "city.2430": "Austin",
-              "state.2430": "TX",
-              "zip.2430": 78705,
-              "country.2430": "us",
-              "lat.2430": 0,
-              "lon.2430": 0,
-              "id.1253": 1253,
-              "businessId.1253": 799,
-              "city.1253": "Austin",
-              "state.1253": "TX",
-              "zip.1253": 78704,
-              "country.1253": "us",
-              "lat.1253": 0,
-              "lon.1253": 0,
-              "id.2703": 2703,
-              "businessId.2703": 1474,
-              "city.2703": "Austin",
-            },
-            "city.2164": "Austin",
-            "state.2164": "TX"
-          }
-        },
-      },
-      "lat.4205": 30.297089,
-      "lon.4205": -97.741558,
-      "id.4223": 4223,
-      "businessId.4223": 943,
-      "city.4223": "Roswell",
-      "state.4223": "GA",
-      "zip.4223": 30076
-    },
-    "businessId.1143": 720,
-    "city.1143": "Austin",
-    "state.1143": "TX",
-    "zip.1143": 78752
-  }
-};
-its.a(bigobj);
 </pre>
-  
+
+<h4>Single Element</h4>
+<button onclick="its.a(document.body)">its.a(document.body);</button>
+<pre class="prettyprint">
+// --  Element Test -- //
+its.a(document.body);
+</pre>
+
+<h4>HTML Collection</h4>
+<button onclick="its.a(document.getElementsByTagName('li'))">its.a(document.getElementsByTagName('li'));</button>
+<pre class="prettyprint">
+// --  Element Test -- //
+its.a(document.getElementsByTagName('li'));
+</pre>
+
+  <hr>
+
+
+
+
+    <h4>Remove all messages</h4>
+<button onclick="its.clearAll()">its.clearAll();</button>
+<pre class="prettyprint">
+its.clearAll();
+</pre>
   
   
   
