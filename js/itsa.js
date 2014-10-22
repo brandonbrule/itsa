@@ -192,17 +192,23 @@ var its = {
   // Basically - loop through object properties
   // Create and Append List Item of Information
   // Each sub object is appended in a nested ul.
-  processObject: function(key,value, objectContainer, objectFirstContainer){
+  processObject: function(key,value, objectContainer, objectFirstContainer, toggleTypeCheck){
 
     var objIterativeType = this.checkType(value),
         combined = ': ' + value + ' ',
         type = document.createElement('span'),
-        typeText = document.createTextNode( '(' + objIterativeType + ')'),
+        typeText,
         text = document.createTextNode(combined),
         keyStrong = document.createElement('strong'),
         li = document.createElement('li'),
         propertyValueEl = document.createElement('span');
         keyText = document.createTextNode(key);
+
+        if (toggleTypeCheck === false){
+          typeText = document.createTextNode( '' );
+        } else{
+          typeText = document.createTextNode( '(' + objIterativeType + ')');
+        }
 
 
     keyStrong.appendChild(keyText);
@@ -221,28 +227,30 @@ var its = {
 
     objectContainer.appendChild(objectFirstContainer);
   },
-  traverseObject: function(ctx, processObject, objectContainer){
+  traverseObject: function(ctx, processObject, objectContainer, toggleTypeCheck){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
         objectFirstContainer.style.display='block';
 
 
     for (var key in ctx) {
-        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer]);
+        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer, toggleTypeCheck]);
         if (ctx[key] !== null && typeof(ctx[key])=="object") {
           var objectCtx = ctx[key];
-          this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
+          this.traverseObject(objectCtx, its.processObject, objectFirstContainer, toggleTypeCheck );
         }
     }
     
   },
 
   // Group Object and Array Results
-  groupObjectTogether: function( ctx, type ){
+  groupObjectTogether: function( ctx, type, toggleTypeCheck ){
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
         objectContainer = document.createElement('div');
+
+
 
     // Header
     objectHeading.appendChild(objectHeadingText);
@@ -254,8 +262,9 @@ var its = {
     if (type === 'htmlcollection'){
       this.processHTMLCollection(ctx, objectContainer);
     } else {
+
       // Traverse the object and process the results for display.
-      this.traverseObject(ctx, this.processObject, objectContainer);
+      this.traverseObject(ctx, this.processObject, objectContainer, toggleTypeCheck);
       this.styleObject(objectContainer);
 
       this.correctNestedObjectElements(objectContainer);
@@ -333,18 +342,13 @@ correctNestedObjectElements: function(objectContainer){
   a: function(ctx, toggleTypeCheck){
     // Pass false to disable type detection.
     // its.a(whatever, false);
-    var type;
-    if( toggleTypeCheck === false ){
-      type = '';
-    }else{
-      // Attach type (object, number, array, string, null)
-      type = this.checkType(ctx);
-    }
+    var type = this.checkType(ctx);
+    
     
     // Object/Array
     if( type === 'object' || type === 'array' || type === 'htmlcollection'){
-      
-      this.groupObjectTogether(ctx, type);
+
+      this.groupObjectTogether(ctx, type, toggleTypeCheck);
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
@@ -353,6 +357,10 @@ correctNestedObjectElements: function(objectContainer){
     // Variables, Strings, Numbers, Booleon
     }else{
       // Return value and type as string of anything other than an array or object.
+      if( toggleTypeCheck === false ){
+        type = '';
+      }
+
       type = this.assembleContext(ctx, type);
       // Display the output
       this.appendContent(type);
@@ -679,5 +687,5 @@ var bigobj = {
     "zip.1143": 78752
   }
 };
-its.a(bigobj);
+its.a(bigobj, false);
 its.a(bigobj);
