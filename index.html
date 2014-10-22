@@ -268,22 +268,27 @@ li.L9 {
 <body>
 
 <header>
-  <h1><span>its.a();</span> <br>A Friendlier ALERT with<br> Type Detection</h1>
+  <h1><span>its.a();</span> <br>A Friendlier AL&Euml;RT with<br> Type Detection</h1>
   <h2>its.a(whateverYouWantPal);</h2>
 </header>
-
+<button onclick="its.a(itsIntroSampleObject)">Show me an example.</button>
+<button onclick="its.a(itsIntroSampleObject, false)">Set type detection to false.</button>
+<button onclick="its.clearAll()">Remove All</button>
 <h3>Advantages its.a(); has over alert();</h3>
 <ul>
   <li>It doesn't alert you.</li>
   <li>It will traverse all the properties of your arrays and objects.</li>
   <li>It has accurate type detection.</li>
-  <li>It is built entirely in codepen and its.a() nice addition for live reload environments, designed to reduce opening the inspector tab.</li>
+  <li>It has been built entirely in codepen and its.a() nice addition for live reload environments.</li>
+  <li>It's just as informative with a traditional refresh.</li>
 </ul>
 <h3>Advantages its.a(); has over console.log();</h3>
   <ul>
     <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
+    <li>its.a() is 4 characters less to type.</li>
+    <li>its.a() has type detection on array and object values, properties, and keypairs.</li>
 </ul>
-
+<hr>
 <h4>String:</h4>
 <button onclick="its.a(numberString )">its.a(numberString );</button>
 <pre class="prettyprint">
@@ -291,16 +296,15 @@ li.L9 {
 var numberString = '1';
 its.a(numberString);
 </pre>
-
+<hr>
 <h4>Number:</h4>
 <button onclick="its.a(number)">its.a(number);</button>
 <pre class="prettyprint">
 // -- Number Test -- //
 var number = 1;
 its.a(number);
-
 </pre>
-
+<hr>
 <h4>Boolean:</h4>
 <button onclick="its.a(trueTest)">its.a(trueTest);</button>
 <pre class="prettyprint">
@@ -308,14 +312,14 @@ its.a(number);
 var trueTest = true;
 its.a(trueTest);
 </pre>
-
+<hr>
 <h4>Not a Boolean:</h4>
 <button onclick="its.a(itsNotABooleon)">its.a(itsNotABooleon);</button>
 <pre class="prettyprint">
 var itsNotABooleon = 'true';
 its.a(itsNotABooleon);
 </pre>
-
+<hr>
 <h4>Date</h4>
 <button onclick="its.a(date)">its.a(date);</button>
 <pre class="prettyprint">
@@ -323,7 +327,7 @@ its.a(itsNotABooleon);
 var date = new Date();
 its.a(date);
 </pre>
-
+<hr>
 <h4>Array</h4>
 <button onclick="its.a(newArray)">its.a(newArray);</button>
 <pre class="prettyprint">
@@ -331,7 +335,7 @@ its.a(date);
 var newArray = [ 1, 'hello', true ];
 its.a(newArray);
 </pre>
-
+<hr>
 <h4>arrayWithObjects </h4>
 <button onclick="its.a(arrayWithObjects )">its.a(arrayWithObjects );</button>
 <pre class="prettyprint">
@@ -349,7 +353,7 @@ var arrayWithObjects = [{
 }];
 its.a(arrayWithObjects);
 </pre>
-
+<hr>
 <h4>Simple Object</h4>
 <button onclick="its.a(ObjectTest )">its.a(ObjectTest );</button>
 <pre class="prettyprint">
@@ -363,7 +367,7 @@ var ObjectTest =
     };
 its.a(ObjectTest);
 </pre>
-
+<hr>
 <h4>More Complex Object</h4>
 <button onclick="its.a(multiStructuredObject)">its.a(multiStructuredObject);</button>
 <pre class="prettyprint">
@@ -383,14 +387,14 @@ var multiStructuredObject = {
 };
 its.a(multiStructuredObject);
 </pre>
-
+<hr>
 <h4>Single Element</h4>
 <button onclick="its.a(document.body)">its.a(document.body);</button>
 <pre class="prettyprint">
 // --  Element Test -- //
 its.a(document.body);
 </pre>
-
+<hr>
 <h4>HTML Collection</h4>
 <button onclick="its.a(document.getElementsByTagName('li'))">its.a(document.getElementsByTagName('li'));</button>
 <pre class="prettyprint">
@@ -408,8 +412,6 @@ its.a(document.getElementsByTagName('li'));
 <pre class="prettyprint">
 its.clearAll();
 </pre>
-  
-  
   
   <script src="http://brandonbrule.com/syntax-highlight/prettify.js"></script>
   <script>prettyPrint();</script> 

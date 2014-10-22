@@ -1,8 +1,9 @@
-
 var its_container_wrapper = document.createElement('div');
     its_container_wrapper.setAttribute("id", "its-wrapper");
     its_container_wrapper.style.background = 'white';
     its_container_wrapper.style.boxSizing = 'border-box';
+    its_container_wrapper.style.position = 'relative';
+    its_container_wrapper.style.zIndex = '100';
     document.body.insertBefore(its_container_wrapper, document.body.firstChild);
 
 
@@ -207,7 +208,7 @@ var its = {
         if (toggleTypeCheck === false){
           typeText = document.createTextNode( '' );
         } else{
-          typeText = document.createTextNode( '(' + objIterativeType + ')')
+          typeText = document.createTextNode( '(' + objIterativeType + ')');
         }
 
 
@@ -410,6 +411,31 @@ var testDefaultMessage = 'Default Message';
   
 var testTypeDetectionOff = 'Type Detection set to False';
 //its.a(testTypeDetectionOff,false);
+
+
+//Intro Object
+var itsIntroSampleObject = { 
+  foo: "its.a() tries to tell you things.",
+  foo2: "it breaks down objects, arrays, html elements and other things.",
+  foo3: "it can tell you if it's a number",
+  number: 123,
+  foo4: "If it's an array",
+  arr: [1, 'test string', false],
+  foo5: "it will loop through all of the nested properties and key value pairs.",
+  subo: {
+    foo6: "Like this string here",
+    anotherfoo: "or this condition here.",
+    condition: false,
+    foo7: "and the nested arrays and properties.",
+    newArr:[1,2,3],
+    subsubo: {
+      foo1: "and so on.",
+      foo2: "and so on."
+    }
+  },
+  lastfoo: "Oh and there's tabbable, collapseable levels."
+};
+
 
   
 // -- String Test --//
