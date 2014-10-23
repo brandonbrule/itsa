@@ -62,7 +62,9 @@ var its = {
 
   setFixedPosition: function(){
     its_container_wrapper.style.position = 'fixed';
-    its_container_wrapper.style.width = '98%';
+    its_container_wrapper.style.top = '0';
+    its_container_wrapper.style.left = '0';
+    its_container_wrapper.style.width = '100%';
   },
   
   
