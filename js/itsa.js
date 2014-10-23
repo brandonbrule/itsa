@@ -59,6 +59,11 @@ var its = {
   clearAll: function(){
     document.getElementById('its-wrapper').innerHTML = '';
   },
+
+  setFixedPosition: function(){
+    its_container_wrapper.style.position = 'fixed';
+    its_container_wrapper.style.width = '98%';
+  },
   
   
   
