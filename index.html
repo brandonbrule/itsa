@@ -271,10 +271,18 @@ li.L9 {
   <h1><span>its.a();</span> <br>A Friendlier AL&Euml;RT with<br> Type Detection</h1>
   <h2>its.a(whateverYouWantPal);</h2>
 </header>
+<button>Source</button>
 <button onclick="its.a(itsIntroSampleObject)">Show me an example.</button>
-<button onclick="its.a(itsIntroSampleObject, false)">Set type detection to false.</button>
-<button onclick="its.clearAll()">Remove All</button>
-<button onclick="its.setFixedPosition()">Set Fixed Position</button>
+<button onclick="its.a(itsIntroSampleObject, false)">Set Type Detection to False</button>
+<button onclick="its.setFixedPosition()">its.setDefaultPosition()</button>
+<button onclick="its.setDefaultPosition()">its.setDefaultPosition()</button>
+<button onclick="its.clearAll()">its.clearAll()</button>
+<div id="source-code">
+  <p>Stable</p>
+  <input onClick="this.setSelectionRange(0, this.value.length)" type="text" style="width:100%;" value="<script src='http://brandonbrule.github.io/itsa/js/itsa.js'></script>">
+  <p>Active Development Source (codepen)</p>
+  <input type="text" style="width:100%;" value="">
+</div>
 <h3>Advantages its.a(); has over alert();</h3>
 <ul>
   <li>It doesn't alert you.</li>
@@ -284,10 +292,10 @@ li.L9 {
   <li>It's just as informative with a traditional refresh.</li>
 </ul>
 <h3>Advantages its.a(); has over console.log();</h3>
-  <ul>
-    <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
-    <li>its.a() is 4 characters less to type.</li>
-    <li>its.a() has type detection on array and object values, properties, and keypairs.</li>
+<ul>
+  <li>console.log() is built into its.a(), saving you the additional effort of typing console.log();</li>
+  <li>its.a() is 4 characters less to type.</li>
+  <li>its.a() has type detection on array and object values, properties, and keypairs.</li>
 </ul>
 <hr>
 <h4>String:</h4>
@@ -403,21 +411,20 @@ its.a(document.body);
 its.a(document.getElementsByTagName('li'));
 </pre>
 
-  <hr>
+<hr>
 
 
 
 
-    <h4>Remove all messages</h4>
+<h4>Remove all messages</h4>
 <button onclick="its.clearAll()">its.clearAll();</button>
 <pre class="prettyprint">
 its.clearAll();
 </pre>
-  
-  <script src="http://brandonbrule.com/syntax-highlight/prettify.js"></script>
-  <script>prettyPrint();</script> 
 
-  <script src="js/itsa.js"></script>
+<script src="http://brandonbrule.com/syntax-highlight/prettify.js"></script>
+<script>prettyPrint();</script> 
+<script src="js/itsa.js"></script>
 
 </body>
 
