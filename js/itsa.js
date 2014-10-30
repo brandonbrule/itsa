@@ -270,7 +270,7 @@ var its = {
 
     this.createCloseButton(objectWrapper);
 
-    if (type === 'htmlcollection'){
+    if (type === 'htmlcollection' || type === 'nodelist'){
       this.processHTMLCollection(ctx, objectContainer);
     } else {
 
@@ -357,7 +357,7 @@ correctNestedObjectElements: function(objectContainer){
     
     
     // Object/Array
-    if( type === 'object' || type === 'array' || type === 'htmlcollection'){
+    if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
 
       this.groupObjectTogether(ctx, type, toggleTypeCheck);
       console.log(ctx);
