@@ -9,7 +9,7 @@ document.body.insertBefore(its_container_wrapper, document.body.firstChild);
     its_container_wrapper.style.boxSizing = 'border-box';
     its_container_wrapper.style.position = 'relative';
     its_container_wrapper.style.zIndex = '100';
-    its_container_wrapper.style.maxWidth = '90%';
+    its_container_wrapper.style.maxWidth = '100%';
     its_container_wrapper.style.margin = '0 auto';
 
 })();
