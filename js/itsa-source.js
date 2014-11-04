@@ -1,10 +1,20 @@
+// Change element
+
 var its_container_wrapper = document.createElement('div');
-    its_container_wrapper.setAttribute("id", "its-wrapper");
+its_container_wrapper.setAttribute("id", "its-wrapper");
+document.body.insertBefore(its_container_wrapper, document.body.firstChild);
+// Style attribute
+(function(){ 
     its_container_wrapper.style.background = 'white';
     its_container_wrapper.style.boxSizing = 'border-box';
     its_container_wrapper.style.position = 'relative';
     its_container_wrapper.style.zIndex = '100';
-    document.body.insertBefore(its_container_wrapper, document.body.firstChild);
+    its_container_wrapper.style.maxWidth = '90%';
+    its_container_wrapper.style.margin = '0 auto';
+
+})();
+
+
 
 
 // If I want a custom element to display messages
@@ -53,6 +63,48 @@ var its = {
     messageElement.appendChild(messageText);
     wrapper.appendChild(headingElement);
     wrapper.appendChild(messageElement);
+    its_container_wrapper.appendChild(wrapper);
+  },
+  
+  snippet: function(){
+    var wrapper = document.createElement('div'),
+        headingElement = document.createElement('div'),
+        headingText = document.createTextNode('Test Code Snippet'),
+        messageElement = document.createElement('textarea'),
+        messageText = document.createTextNode('// Code Here'),
+        runScriptButton = document.createElement('button'),
+        runScriptButtonText = document.createTextNode('Run Code');
+    
+    wrapper.style.position = 'relative';
+    
+    // Heading
+    headingElement.appendChild(headingText);
+    this.styleContent(headingElement);
+    wrapper.appendChild(headingElement);
+    
+    // Close Button
+    this.createCloseButton(wrapper);
+    
+    // Message
+    messageElement.appendChild(messageText);
+    this.styleObject(messageElement);
+    messageElement.style.minHeight = '160px';
+    wrapper.appendChild(messageElement);
+
+    // Run Script Button
+    runScriptButton.appendChild(runScriptButtonText);
+    (function(){ 
+      runScriptButton.style.position = 'absolute';
+      runScriptButton.style.right = '0';
+      runScriptButton.style.bottom = '0';
+      runScriptButton.style.padding = '1em';
+      wrapper.appendChild(runScriptButton);
+    })();
+    runScriptButton.addEventListener("click", function(){
+      ( new Function( messageElement.value ))();
+    });
+
+    // Append it all
     its_container_wrapper.appendChild(wrapper);
   },
   // Clear The Entire Error Board
@@ -110,11 +162,13 @@ var its = {
     container.style.backgroundColor = 'rgb(170,0,0)';
     container.style.color = 'white';
     container.style.display = 'block';
-    container.style.padding = '5px 8% 5px 5px';
+    container.style.padding = '5px 1% 5px 1%';
+    container.style.boxSizing = 'border-box';
     container.style.width = '100%';
     container.style.margin = '1px';
-    container.style.boxSizing = 'border-box';
+
     container.style.position = 'relative';
+    container.style.border = '3px solid rgb(170, 0, 0)';
   },
   // Adds the Type the message context
   assembleContext: function(ctx, type){
@@ -199,6 +253,8 @@ var its = {
     object.style.margin = '0';
     object.style.background = '#fff';
     object.style.overflow = 'scroll';
+    object.style.width = '100%';
+    object.style.boxSizing = 'border-box';
   },
   // Object Traversal and Nesting
   // Basically - loop through object properties
@@ -354,7 +410,6 @@ correctNestedObjectElements: function(objectContainer){
     // Pass false to disable type detection.
     // its.a(whatever, false);
     var type = this.checkType(ctx);
-    
     
     // Object/Array
     if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
