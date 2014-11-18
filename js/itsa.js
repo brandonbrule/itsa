@@ -106,7 +106,7 @@ var its = {
   },
   // Clear The Entire Error Board
   clearAll: function(){
-    document.getElementById('its-wrapper').innerHTML = '';
+    its_container_wrapper.innerHTML = '';
   },
 
   setFixedPosition: function(){
