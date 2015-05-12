@@ -1,18 +1,27 @@
 // Change element
 
-var its_container_wrapper = document.createElement('div');
-its_container_wrapper.setAttribute("id", "its-wrapper");
-document.body.insertBefore(its_container_wrapper, document.body.firstChild);
+var its_container_wrapper;
+
+if ( document.getElementById('its-wrapper') ) {
+  its_container_wrapper = document.getElementById('its-wrapper');
+} else {
+  its_container_wrapper = document.createElement('div');
+  its_container_wrapper.setAttribute("id", "its-wrapper");
+  document.body.insertBefore(its_container_wrapper, document.body.firstChild);
+
+}
+
 // Style attribute
 (function(){ 
-    its_container_wrapper.style.background = 'white';
-    its_container_wrapper.style.boxSizing = 'border-box';
-    its_container_wrapper.style.position = 'relative';
-    its_container_wrapper.style.zIndex = '100';
-    its_container_wrapper.style.maxWidth = '100%';
-    its_container_wrapper.style.margin = '0 auto';
+  its_container_wrapper.style.background = 'white';
+  its_container_wrapper.style.boxSizing = 'border-box';
+  its_container_wrapper.style.position = 'relative';
+  its_container_wrapper.style.zIndex = '100';
+  its_container_wrapper.style.maxWidth = '100%';
+  its_container_wrapper.style.margin = '0 auto';
 
 })();
+
 
 
 
