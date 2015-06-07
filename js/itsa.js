@@ -15,7 +15,7 @@ if ( document.getElementById('its-wrapper') ) {
 }
 
 
-// Init Styles
+// Styles Config
 ( function () {
   var style_tag = document.createElement('style');
   var styles = [
@@ -27,7 +27,7 @@ if ( document.getElementById('its-wrapper') ) {
     'margin: 0px auto;',
     'background: white;',
   '}',
-  '#its-wrapper .its-close-button{',
+  '.its-close-button{',
     'position: absolute;',
     'top: 3px;',
     'right: 3px;',
@@ -37,7 +37,7 @@ if ( document.getElementById('its-wrapper') ) {
     'border: 1px solid white;',
     'background: none;',
   '}',
-  '#its-wrapper .its-a-message{',
+  '.its-a-message{',
     'color: white;',
     'display: block;',
     'padding: 5px 1%;',
@@ -48,7 +48,7 @@ if ( document.getElementById('its-wrapper') ) {
     'border: 3px solid rgb(170, 0, 0);',
     'background-color: rgb(170, 0, 0);',
   '}',
-  '#its-wrapper .its-a-object-container{',
+  '.its-a-object-container{',
     'padding: 10px;',
     'border: 3px solid rgb(170, 0, 0);',
     'margin: 0px;',
@@ -56,6 +56,12 @@ if ( document.getElementById('its-wrapper') ) {
     'width: 100%;',
     'box-sizing: border-box;',
     'background: rgb(255, 255, 255);',
+  '}',
+  '.code-snippet{',
+  'position: fixed;',
+  'bottom: 0;',
+  'left: 0;',
+  'width: 100%;',
   '}'
   ].join('');
 
@@ -110,13 +116,12 @@ var its = {
         headingElement = document.createElement('div'),
         headingText = document.createTextNode('Test Code Snippet'),
         messageElement = document.createElement('textarea'),
-        messageText = document.createTextNode('// Code Here'),
+        messageText = document.createTextNode('its.a("test")'),
         runScriptButton = document.createElement('button'),
         runScriptButtonText = document.createTextNode('Run Code');
     
-    wrapper.style.position = 'relative';
-    
     // Heading
+    headingElement.setAttribute('class', 'its-a-message');
     headingElement.appendChild(headingText);
     wrapper.appendChild(headingElement);
     
@@ -124,26 +129,26 @@ var its = {
     this.createCloseButton(wrapper);
     
     // Message
-    MessageElement.setAttribute('class', 'its-a-object-container');
+    messageElement.setAttribute('class', 'its-a-object-container');
     messageElement.appendChild(messageText);
-    messageElement.style.minHeight = '160px';
     wrapper.appendChild(messageElement);
 
     // Run Script Button
     runScriptButton.appendChild(runScriptButtonText);
     (function(){ 
       runScriptButton.style.position = 'absolute';
-      runScriptButton.style.right = '0';
-      runScriptButton.style.bottom = '0';
-      runScriptButton.style.padding = '1em';
+      runScriptButton.style.right = '25px';
+      runScriptButton.style.top = '5px';
       wrapper.appendChild(runScriptButton);
     })();
     runScriptButton.addEventListener("click", function(){
       ( new Function( messageElement.value ))();
     });
 
+    wrapper.setAttribute('class', 'code-snippet');
+
     // Append it all
-    its_container_wrapper.appendChild(wrapper);
+    document.getElementsByTagName('body')[0].appendChild(wrapper);
   },
   // Clear The Entire Error Board
   clearAll: function(){
