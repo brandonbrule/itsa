@@ -1,9 +1,13 @@
 // Change element
 
 var its_container_wrapper;
-var itsa_styles_check;
+
+// Let the the user set a custom location for the wrapper
+// so if theres an element with its-wrapper do stuff there.
 if ( document.getElementById('its-wrapper') ) {
   its_container_wrapper = document.getElementById('its-wrapper');
+
+// Create its-wrapper at the top of page.
 } else {
   its_container_wrapper = document.createElement('div');
   its_container_wrapper.setAttribute("id", "its-wrapper");
@@ -11,11 +15,54 @@ if ( document.getElementById('its-wrapper') ) {
 }
 
 
+// Init Styles
+( function () {
+  var style_tag = document.createElement('style');
+  var styles = [
+  '#its-wrapper{',
+    'box-sizing: border-box;',
+    'position: relative;',
+    'z-index: 100;',
+    'max-width: 100%;',
+    'margin: 0px auto;',
+    'background: white;',
+  '}',
+  '#its-wrapper .its-close-button{',
+    'position: absolute;',
+    'top: 3px;',
+    'right: 3px;',
+    'z-index: 10;',
+    'color: white;',
+    'padding: 2px 5px;',
+    'border: 1px solid white;',
+    'background: none;',
+  '}',
+  '#its-wrapper .its-a-message{',
+    'color: white;',
+    'display: block;',
+    'padding: 5px 1%;',
+    'box-sizing: border-box;',
+    'width: 100%;',
+    'margin: 1px;',
+    'position: relative;',
+    'border: 3px solid rgb(170, 0, 0);',
+    'background-color: rgb(170, 0, 0);',
+  '}',
+  '#its-wrapper .its-a-object-container{',
+    'padding: 10px;',
+    'border: 3px solid rgb(170, 0, 0);',
+    'margin: 0px;',
+    'overflow: scroll;',
+    'width: 100%;',
+    'box-sizing: border-box;',
+    'background: rgb(255, 255, 255);',
+  '}'
+  ].join('');
 
+  style_tag.innerHTML = styles;
+  document.getElementsByTagName('head')[0].appendChild(style_tag);
+})();
 
-// If I want a custom element to display messages
-// Create an element with the id="its-wrapper"
-// var its_container_wrapper = document.getElementById('its-wrapper');
 
 
 //-// -------------- its.a -------------- //-//
@@ -41,13 +88,10 @@ var its = {
     
     wrapper.style.position = 'relative';
 
-
     headingElement.setAttribute('class', 'its-a-message');
     headingElement.appendChild(headingText);
     
     messageElement.appendChild(messageText);
-    
-
     
     // Close Button
     this.createCloseButton(wrapper);
@@ -116,57 +160,6 @@ var its = {
   setDefaultPosition: function(){
     its_container_wrapper.style.position = 'relative';
   },
-
-  styles: function(){
-  var style_tag = document.createElement('style');
-  var styles = [
-  '#its-wrapper{',
-    'box-sizing: border-box;',
-    'position: relative;',
-    'z-index: 100;',
-    'max-width: 100%;',
-    'margin: 0px auto;',
-    'background: white;',
-  '}',
-  '#its-wrapper .its-close-button{',
-    'position: absolute;',
-    'top: 3px;',
-    'right: 3px;',
-    'z-index: 10;',
-    'color: white;',
-    'padding: 2px 5px;',
-    'border: 1px solid white;',
-    'background: none;',
-  '}',
-  '#its-wrapper .its-a-message{',
-    'color: white;',
-    'display: block;',
-    'padding: 5px 1%;',
-    'box-sizing: border-box;',
-    'width: 100%;',
-    'margin: 1px;',
-    'position: relative;',
-    'border: 3px solid rgb(170, 0, 0);',
-    'background-color: rgb(170, 0, 0);',
-  '}',
-  '#its-wrapper .its-a-object-container{',
-    'padding: 10px;',
-    'border: 3px solid rgb(170, 0, 0);',
-    'margin: 0px;',
-    'overflow: scroll;',
-    'width: 100%;',
-    'box-sizing: border-box;',
-    'background: rgb(255, 255, 255);',
-  '}'
-  ].join('');
-
-  style_tag.innerHTML = styles;
-
-  document.getElementsByTagName('head')[0].appendChild(style_tag);
-
-  },
-  
-  
   
   // -- Close Single Message Button -- //
   // Create Close Button Element
@@ -452,10 +445,7 @@ correctNestedObjectElements: function(objectContainer){
       this.appendContent(type);
     }
 
-    if (itsa_styles_check !== 1){
-      this.styles();
-      itsa_styles_check = 1;
-    }
+
     
   },
   
