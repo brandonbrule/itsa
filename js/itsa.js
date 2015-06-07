@@ -1,26 +1,14 @@
 // Change element
 
 var its_container_wrapper;
-
+var itsa_styles_check;
 if ( document.getElementById('its-wrapper') ) {
   its_container_wrapper = document.getElementById('its-wrapper');
 } else {
   its_container_wrapper = document.createElement('div');
   its_container_wrapper.setAttribute("id", "its-wrapper");
   document.body.insertBefore(its_container_wrapper, document.body.firstChild);
-
 }
-
-// Style attribute
-(function(){ 
-  its_container_wrapper.style.background = 'white';
-  its_container_wrapper.style.boxSizing = 'border-box';
-  its_container_wrapper.style.position = 'relative';
-  its_container_wrapper.style.zIndex = '100';
-  its_container_wrapper.style.maxWidth = '100%';
-  its_container_wrapper.style.margin = '0 auto';
-
-})();
 
 
 
@@ -52,19 +40,20 @@ var its = {
         messageText = document.createTextNode(message);
     
     wrapper.style.position = 'relative';
-    
+
+
+    headingElement.setAttribute('class', 'its-a-message');
     headingElement.appendChild(headingText);
     
     messageElement.appendChild(messageText);
     
-    
-    // Heading
-    this.styleContent(headingElement);
+
     
     // Close Button
     this.createCloseButton(wrapper);
-    
-    this.styleObject(messageElement);
+
+    // Message
+    messageElement.setAttribute('class', 'its-a-object-container');
 
     messageElement.appendChild(messageText);
     wrapper.appendChild(headingElement);
@@ -85,15 +74,14 @@ var its = {
     
     // Heading
     headingElement.appendChild(headingText);
-    this.styleContent(headingElement);
     wrapper.appendChild(headingElement);
     
     // Close Button
     this.createCloseButton(wrapper);
     
     // Message
+    MessageElement.setAttribute('class', 'its-a-object-container');
     messageElement.appendChild(messageText);
-    this.styleObject(messageElement);
     messageElement.style.minHeight = '160px';
     wrapper.appendChild(messageElement);
 
@@ -128,29 +116,67 @@ var its = {
   setDefaultPosition: function(){
     its_container_wrapper.style.position = 'relative';
   },
+
+  styles: function(){
+  var style_tag = document.createElement('style');
+  var styles = [
+  '#its-wrapper{',
+    'box-sizing: border-box;',
+    'position: relative;',
+    'z-index: 100;',
+    'max-width: 100%;',
+    'margin: 0px auto;',
+    'background: white;',
+  '}',
+  '#its-wrapper .its-close-button{',
+    'position: absolute;',
+    'top: 3px;',
+    'right: 3px;',
+    'z-index: 10;',
+    'color: white;',
+    'padding: 2px 5px;',
+    'border: 1px solid white;',
+    'background: none;',
+  '}',
+  '#its-wrapper .its-a-message{',
+    'color: white;',
+    'display: block;',
+    'padding: 5px 1%;',
+    'box-sizing: border-box;',
+    'width: 100%;',
+    'margin: 1px;',
+    'position: relative;',
+    'border: 3px solid rgb(170, 0, 0);',
+    'background-color: rgb(170, 0, 0);',
+  '}',
+  '#its-wrapper .its-a-object-container{',
+    'padding: 10px;',
+    'border: 3px solid rgb(170, 0, 0);',
+    'margin: 0px;',
+    'overflow: scroll;',
+    'width: 100%;',
+    'box-sizing: border-box;',
+    'background: rgb(255, 255, 255);',
+  '}'
+  ].join('');
+
+  style_tag.innerHTML = styles;
+
+  document.getElementsByTagName('head')[0].appendChild(style_tag);
+
+  },
   
   
   
   // -- Close Single Message Button -- //
-  // Close Button Styles
-  styleCloseButton: function(closeButton){
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '3px';
-    closeButton.style.right = '3px';
-    closeButton.style.zIndex = '10';
-    closeButton.style.color = 'white';
-    closeButton.style.padding = '2px 5px';
-    closeButton.style.border = '1px solid white';
-    closeButton.style.background = 'none';
-  },
   // Create Close Button Element
   createCloseButton: function(parentContainer){
     var closeButton = document.createElement('button'),
         closeCtx = document.createTextNode('x');
 
+    closeButton.setAttribute('class', 'its-close-button');
     closeButton.appendChild(closeCtx);
     parentContainer.appendChild(closeButton);
-    this.styleCloseButton(closeButton);
     this.removeSingleMessage(closeButton, parentContainer);
   },
   // Remove Single Message Functionality
@@ -163,19 +189,6 @@ var its = {
   
   
   // -- Standard Message Handeling -- //
-  // Style the Message
-  styleContent : function(container){
-    container.style.backgroundColor = 'rgb(170,0,0)';
-    container.style.color = 'white';
-    container.style.display = 'block';
-    container.style.padding = '5px 1% 5px 1%';
-    container.style.boxSizing = 'border-box';
-    container.style.width = '100%';
-    container.style.margin = '1px';
-
-    container.style.position = 'relative';
-    container.style.border = '3px solid rgb(170, 0, 0)';
-  },
   // Adds the Type the message context
   assembleContext: function(ctx, type){
     if(type){
@@ -203,8 +216,7 @@ var its = {
     container.className += "its-a-message";
     
     
-    // Style and Append
-    this.styleContent(container);
+    // Append
     container.appendChild(content);
     its_container_wrapper.appendChild(container);
     
@@ -215,7 +227,7 @@ var its = {
   
   
   // -- HTML Element Message Handeling -- //
-  htmlElement:function(ctx, container){
+  htmlElement:function(ctx, container, iterator){
     var wrapper = document.createElement('div'),
         heading = document.createElement('div'),
         headingText,
@@ -229,19 +241,28 @@ var its = {
     wrapper.style.position = 'relative';
     
     // Heading
+    heading.setAttribute('class', 'its-a-message');
     tmp.appendChild(ctxHeader);
-    headerToString = document.createTextNode(tmp.innerHTML);
+
+    if (iterator === 'single-element'){
+      pre.setAttribute('class', 'its-a-object-container');
+      headerToString = document.createTextNode(tmp.innerHTML);
+    } else{
+      headerToString = document.createTextNode(tmp.innerHTML + ' [' + iterator + ']');
+    }
+
     heading.appendChild(headerToString);
-    this.styleContent(heading);
     tmp.innerHTML = '';
     
     // Close Button
     this.createCloseButton(wrapper);
     
     // Convert html element to text
+
     tmp.appendChild(ctxCopyChildren);
     elementToString = document.createTextNode(tmp.innerHTML);
-    this.styleObject(pre);
+
+
 
     pre.appendChild(elementToString);
     wrapper.appendChild(heading);
@@ -252,16 +273,6 @@ var its = {
   
   
   // -- Object Message Handeling -- //
-  // Object Container Styles
-  styleObject: function( object ){
-    object.style.padding = '10px';
-    object.style.border = '3px solid rgb(170, 0, 0)';
-    object.style.margin = '0';
-    object.style.background = '#fff';
-    object.style.overflow = 'scroll';
-    object.style.width = '100%';
-    object.style.boxSizing = 'border-box';
-  },
   // Object Traversal and Nesting
   // Basically - loop through object properties
   // Create and Append List Item of Information
@@ -324,11 +335,13 @@ var its = {
         objectContainer = document.createElement('div');
 
 
-
     // Header
+    objectHeading.setAttribute('class', 'its-a-message');
     objectHeading.appendChild(objectHeadingText);
     objectWrapper.style.position = 'relative';
-    this.styleContent(objectHeading);
+
+    // Object Content
+    objectContainer.setAttribute('class', 'its-a-object-container');
 
     this.createCloseButton(objectWrapper);
 
@@ -338,7 +351,6 @@ var its = {
 
       // Traverse the object and process the results for display.
       this.traverseObject(ctx, this.processObject, objectContainer, toggleTypeCheck);
-      this.styleObject(objectContainer);
 
       this.correctNestedObjectElements(objectContainer);
     }
@@ -381,7 +393,7 @@ correctNestedObjectElements: function(objectContainer){
   processHTMLCollection: function(ctx, objectContainer){
     console.log(ctx);
     for (var i = 0, len = ctx.length; i < len; i++){
-      this.htmlElement(ctx[i], objectContainer);
+      this.htmlElement(ctx[i], objectContainer, i);
     }
   },
   
@@ -425,7 +437,8 @@ correctNestedObjectElements: function(objectContainer){
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
-      this.htmlElement(ctx, its_container_wrapper);
+      console.log(its_container_wrapper);
+      this.htmlElement(ctx, its_container_wrapper, 'single-element');
       
     // Variables, Strings, Numbers, Booleon
     }else{
@@ -437,6 +450,11 @@ correctNestedObjectElements: function(objectContainer){
       type = this.assembleContext(ctx, type);
       // Display the output
       this.appendContent(type);
+    }
+
+    if (itsa_styles_check !== 1){
+      this.styles();
+      itsa_styles_check = 1;
     }
     
   },
