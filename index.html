@@ -96,6 +96,7 @@ a:hover{
 #source-code input{
   border: none;
   text-align: center;
+  margin-bottom:2em;
 }
 
 hr{
@@ -294,19 +295,16 @@ li.L9 {
         <form  action="http://codepen.io/pen/define" method="POST" target="_blank">
           <input id="data-input" type="hidden" name="data" value="{&amp;quot;title&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;description&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;css_external&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;js_external&amp;quot;:&amp;quot;http://brandonbrule.github.io/itsa/js/itsa.js&amp;quot;,&amp;quot;html&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;css&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;js&amp;quot;:&amp;quot;its.message(\n  &amp;apos;its.a()&amp;apos;, \n  &amp;apos;An unintrusive alert window with more information and custom messaging api.&amp;apos;\n);\n&amp;quot;,&amp;quot;html_pre_processor&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;css_pre_processor&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;js_library&amp;quot;:&amp;quot;&amp;quot;}">
           <input style="background:#222;padding:5px;" type="image" src="http://s.cdpn.io/3/cp-arrow-right.svg" width="40" height="40" value="Create Pen" class="codepen-mover-button">
-
         </form>
       </span>
+
+    <button onclick="its.a(itsIntroSampleObject)">Example</button>
+    <button onclick="its.a(itsIntroSampleObject, false)">Optional Type Detection</button>
+    <button onclick="its.setFixedPosition()">its.setFixedPosition()</button>
+    <button onclick="its.setDefaultPosition()">its.setDefaultPosition()</button>
+    <button onclick="its.snippet()">its.snippet()</button>
+    <button onclick="its.clearAll()">its.clearAll()</button>
   </header>
-
-  <button onclick="its.a(itsIntroSampleObject)">Example</button>
-  <button onclick="its.a(itsIntroSampleObject, false)">Optional Type Detection</button>
-  <button onclick="its.setFixedPosition()">its.setFixedPosition()</button>
-  <button onclick="its.setDefaultPosition()">its.setDefaultPosition()</button>
-  <button onclick="its.snippet()">its.snippet()</button>
-  <button onclick="its.clearAll()">its.clearAll()</button>
-
-  <hr>
 
   <h3>Advantages its.a(); has over alert();</h3>
   <ul>
