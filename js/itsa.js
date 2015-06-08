@@ -345,6 +345,7 @@ var its = {
 
     if (type === 'htmlcollection' || type === 'nodelist'){
       this.processHTMLCollection(ctx, objectContainer);
+      
     } else {
 
       // Traverse the object and process the results for display.
