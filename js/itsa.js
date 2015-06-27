@@ -418,8 +418,6 @@ correctNestedObjectElements: function(objectContainer){
     };
   }(),
 
-
-  
  
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
@@ -427,6 +425,8 @@ correctNestedObjectElements: function(objectContainer){
     // Pass false to disable type detection.
     // its.a(whatever, false);
     var type = this.checkType(ctx);
+
+    
     
     // Object/Array
     if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
@@ -438,6 +438,21 @@ correctNestedObjectElements: function(objectContainer){
     } else if ( type === 'object:DOMelement' ){
       console.log(its_container_wrapper);
       this.htmlElement(ctx, its_container_wrapper, 'single-element');
+
+    // localStorage
+    } else if ( type === 'storage' ){
+
+      if( toggleTypeCheck === false ){
+        this.groupObjectTogether(ctx, type, toggleTypeCheck);
+        console.log(ctx);
+      } else {
+        for (var key in ctx) {
+          var localstoragetype = this.checkType(ctx[key]);
+          var localStorageItemObject = JSON.parse( ctx[key] );
+          this.groupObjectTogether(localStorageItemObject, key + ' (' + type + ')', toggleTypeCheck);
+          console.log(key + ':' + ctx[key]);
+        }
+      }
       
     // Variables, Strings, Numbers, Booleon
     }else{
