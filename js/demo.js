@@ -7,6 +7,31 @@ its.message(
   'An unintrusive alert window with more information and custom messaging api.'
 );
 
+
+// its.settings //
+
+// By Config //
+////////////////////////
+// var config = {
+//   collapsed: false,
+//   type_check: false
+// };
+//its.setConfig(config);
+
+
+// Set Before its.a() //
+////////////////////////
+// Prior to its.a() call
+// its.type_check = false;
+// its.collapsed = false;
+
+// its.type_check = true;
+// its.collapsed = true;
+
+
+
+
+
 // -- Test Code Snippet --//
 //its.snippet();
 
