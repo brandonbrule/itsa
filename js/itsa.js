@@ -394,6 +394,7 @@ var its = {
     }
     objectWrapper.appendChild(objectHeading);
     objectWrapper.appendChild(objectContainer);
+    objectWrapper.getElementsByTagName('ul')[0].removeAttribute('class');
     its_container_wrapper.appendChild(objectWrapper);
   },
     
@@ -520,9 +521,6 @@ var its = {
       }
     }
 
-    // Remove Nested Class From First UL
-    its_container_wrapper.getElementsByTagName('ul')[0].removeAttribute('class');
-    its_container_wrapper.getElementsByTagName('ul')[0].getElementsByTagName('button')[0].focus();
   },
   
 };
