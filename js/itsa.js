@@ -2,6 +2,11 @@
 
 var its_container_wrapper;
 
+var config = {
+  expanded: true,
+  type_detection: true
+}
+
 // Let the the user set a custom location for the wrapper
 // so if theres an element with its-wrapper do stuff there.
 if ( document.getElementById('its-wrapper') ) {
@@ -25,7 +30,9 @@ if ( document.getElementById('its-wrapper') ) {
     'z-index: 100;',
     'max-width: 100%;',
     'margin: 0px auto;',
+    'line-height: 1.35;',
     'background: white;',
+    'font-family: "Lucida Sans Typewriter";',
   '}',
   '.its-close-button{',
     'position: absolute;',
@@ -58,10 +65,34 @@ if ( document.getElementById('its-wrapper') ) {
     'background: rgb(255, 255, 255);',
   '}',
   '.code-snippet{',
-  'position: fixed;',
-  'bottom: 0;',
-  'left: 0;',
-  'width: 100%;',
+    'position: fixed;',
+    'bottom: 0;',
+    'left: 0;',
+    'width: 100%;',
+  '}',
+  '#its-wrapper ul.closed ul.closed{',
+    'display: none;',
+  '}',
+  '#its-wrapper li{',
+    'color:#555;',
+    'position: relative;',
+  '}',
+  '#its-wrapper li button{',
+    'position: absolute;',
+    'left: -25px;',
+  '}',
+  '#its-wrapper li button:after{',
+    'content: "-";',
+  '}',
+  '#its-wrapper li span{',
+    'display: inline-block;',
+  '}',
+  '#its-wrapper li strong{',
+    'color:#222;',
+    'font-family: Arial, helvetica;',
+    'font-size: 14px;',
+    'display: inline-block;',
+    'font-weight: 600;',
   '}'
   ].join('');
 
@@ -73,6 +104,10 @@ if ( document.getElementById('its-wrapper') ) {
 
 //-// -------------- its.a -------------- //-//
 var its = {
+
+  test_var: 'testing',
+  type_check: true,
+  expanded: true,
   
   // -- API Useage -- //
   // Description Output Options
@@ -213,7 +248,6 @@ var its = {
     // Set Output Class
     container.className += "its-a-message";
     
-    
     // Append
     container.appendChild(content);
     its_container_wrapper.appendChild(container);
@@ -234,7 +268,8 @@ var its = {
         ctxHeader = ctx.cloneNode(false),
         ctxCopyChildren = ctx.cloneNode(true),
         headerToString,
-        elementToString;
+        elementToString,
+        str;
     
     wrapper.style.position = 'relative';
     
@@ -260,23 +295,22 @@ var its = {
     tmp.appendChild(ctxCopyChildren);
     elementToString = document.createTextNode(tmp.innerHTML);
 
-
-
     pre.appendChild(elementToString);
     wrapper.appendChild(heading);
     wrapper.appendChild(pre);
     container.appendChild(wrapper);
   },
   
-  
+  cookies: function(){
+    console.log(document.cookie);
+  },
   
   // -- Object Message Handeling -- //
   // Object Traversal and Nesting
   // Basically - loop through object properties
   // Create and Append List Item of Information
   // Each sub object is appended in a nested ul.
-  processObject: function(key,value, objectContainer, objectFirstContainer, toggleTypeCheck){
-
+  processObject: function(key,value, objectContainer, objectFirstContainer){
     var objIterativeType = this.checkType(value),
         combined = ': ' + value + ' ',
         type = document.createElement('span'),
@@ -286,12 +320,8 @@ var its = {
         li = document.createElement('li'),
         propertyValueEl = document.createElement('span');
         keyText = document.createTextNode(key);
+        typeText = document.createTextNode( '(' + objIterativeType + ')');
 
-        if (toggleTypeCheck === false){
-          typeText = document.createTextNode( '' );
-        } else{
-          typeText = document.createTextNode( '(' + objIterativeType + ')');
-        }
 
 
     keyStrong.appendChild(keyText);
@@ -302,6 +332,7 @@ var its = {
 
     type.appendChild(typeText);
     type.style.color = 'rgb(170, 0, 0)';
+    type.setAttribute('class', 'its-type');
     li.appendChild(type);
 
     
@@ -309,24 +340,26 @@ var its = {
 
     objectContainer.appendChild(objectFirstContainer);
   },
-  traverseObject: function(ctx, processObject, objectContainer, toggleTypeCheck){
+
+  traverseObject: function(ctx, processObject, objectContainer){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
-        objectFirstContainer.style.display='block';
+        objectFirstContainer.setAttribute('data-collapsed', true);
+        objectFirstContainer.setAttribute('class', 'closed');
 
 
     for (var key in ctx) {
-        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer, toggleTypeCheck]);
+        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer]);
         if (ctx[key] !== null && typeof(ctx[key])=="object") {
           var objectCtx = ctx[key];
-          this.traverseObject(objectCtx, its.processObject, objectFirstContainer, toggleTypeCheck );
+          this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
         }
     }
     
   },
 
   // Group Object and Array Results
-  groupObjectTogether: function( ctx, type, toggleTypeCheck ){
+  groupObjectTogether: function( ctx, type ){
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
@@ -349,7 +382,7 @@ var its = {
     } else {
 
       // Traverse the object and process the results for display.
-      this.traverseObject(ctx, this.processObject, objectContainer, toggleTypeCheck);
+      this.traverseObject(ctx, this.processObject, objectContainer);
 
       this.correctNestedObjectElements(objectContainer);
     }
@@ -357,37 +390,44 @@ var its = {
     objectWrapper.appendChild(objectContainer);
     its_container_wrapper.appendChild(objectWrapper);
   },
-  
-correctNestedObjectElements: function(objectContainer){
-  var nestedGrouping = objectContainer.querySelectorAll( '[data-traverse = nested-properties]' );
-  
-  for (var i = 1, len = nestedGrouping.length; i < len; i++){
+    
+  correctNestedObjectElements: function(objectContainer){
+    var nestedGrouping = objectContainer.querySelectorAll( '[data-traverse = nested-properties]' );
+    
+    for (var i = 1, len = nestedGrouping.length; i < len; i++){
 
-    // Button so you can tab through everything and use spacebar
-    // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
-    var levelExpandTitleAndButton = document.createElement('button');
-    levelExpandTitleAndButton.className = 'has-child-list';
-    levelExpandTitleAndButton.setAttribute('type', 'button');
-    levelExpandTitleAndButton.style.cursor = 'pointer'; 
-    levelExpandTitleAndButton.appendChild(nestedGrouping[i].previousSibling.firstChild);
+      // Button so you can tab through everything and use spacebar
+      // Thanks to Mr. Scott Vinkle for the feedback and education that made this possible.
+      var li = nestedGrouping[i].previousSibling;
+      var strong = li.firstChild;
+      var property_name = strong.innerHTML;
+      
+      var expand_button = document.createElement('button');
+      expand_button.setAttribute('type', 'button');
+      expand_button.style.cursor = 'pointer';
+      
+      // Expand Button
+      li.insertBefore(expand_button, strong);
 
-    nestedGrouping[i].previousSibling.insertBefore(levelExpandTitleAndButton, nestedGrouping[i].previousSibling.firstChild);
-    //nestedGrouping[i].previousSibling.firstChild.remove();
-    nestedGrouping[i].previousSibling.appendChild(nestedGrouping[i]);
-    nestedGrouping[i].parentNode.firstChild.setAttribute('class','has-child-list');
+      // Children List Menus appended
+      li.appendChild(nestedGrouping[i]);
 
-    levelExpandTitleAndButton.addEventListener("click", function(e){
-      var childMenu = this.parentNode.getElementsByTagName('ul')[0];
-      if (childMenu){
-        if(childMenu.style.display == 'block'){
-          childMenu.style.display = 'none';
-        }else {
-            childMenu.style.display = 'block';
+      expand_button.addEventListener("click", function(e){
+        if ( e.target.nodeName === 'BUTTON'){
+          var childMenu = e.target.parentNode.getElementsByTagName('ul')[0];
+          if (childMenu){
+            if ( childMenu.getAttribute('data-collapsed') ){
+              childMenu.removeAttribute('data-collapsed');
+              childMenu.removeAttribute('class');
+            } else {
+              childMenu.setAttribute('data-collapsed', true);
+              childMenu.setAttribute('class', 'closed');
+            }
+          }
         }
-      }
-    });
-  }
-},
+      });
+    }
+  },
 
   processHTMLCollection: function(ctx, objectContainer){
     console.log(ctx);
@@ -426,8 +466,7 @@ correctNestedObjectElements: function(objectContainer){
     // its.a(whatever, false);
     var type = this.checkType(ctx);
 
-    
-    
+
     // Object/Array
     if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
 
@@ -442,28 +481,31 @@ correctNestedObjectElements: function(objectContainer){
     // localStorage
     } else if ( type === 'storage' ){
 
-      if( toggleTypeCheck === false ){
-        this.groupObjectTogether(ctx, type, toggleTypeCheck);
-        console.log(ctx);
-      } else {
-        for (var key in ctx) {
-          var localstoragetype = this.checkType(ctx[key]);
-          var localStorageItemObject = JSON.parse( ctx[key] );
-          this.groupObjectTogether(localStorageItemObject, key + ' (' + type + ')', toggleTypeCheck);
-          console.log(key + ':' + ctx[key]);
-        }
+      for (var key in ctx) {
+        var localstoragetype = this.checkType(ctx[key]);
+        var localStorageItemObject = JSON.parse( ctx[key] );
+        this.groupObjectTogether(localStorageItemObject, key + ' (' + type + ')');
+        console.log(key + ':' + ctx[key]);
       }
       
     // Variables, Strings, Numbers, Booleon
     }else{
-      // Return value and type as string of anything other than an array or object.
-      if( toggleTypeCheck === false ){
-        type = '';
-      }
 
       type = this.assembleContext(ctx, type);
       // Display the output
       this.appendContent(type);
+    }
+
+
+    // Remove Type From Elements
+    if( toggleTypeCheck === false ){
+      var messages = its_container_wrapper.children;
+      var message_length = messages.length;
+      var message_container = messages[message_length - 1] ;
+      type_elements = message_container.getElementsByClassName('its-type');
+      while (type_elements.length > 0) {
+        type_elements[0].parentNode.removeChild(type_elements[0]);
+      }
     }
 
 
