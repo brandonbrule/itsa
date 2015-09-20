@@ -79,10 +79,9 @@ if ( document.getElementById('its-wrapper') ) {
   '}',
   '#its-wrapper li button{',
     'position: absolute;',
-    'left: -25px;',
-  '}',
-  '#its-wrapper li button:after{',
-    'content: "-";',
+    'left: -27px;',
+    'width: 25px;',
+    'height: 25px;',
   '}',
   '#its-wrapper li span{',
     'display: inline-block;',
@@ -344,7 +343,6 @@ var its = {
   traverseObject: function(ctx, processObject, objectContainer){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
-        objectFirstContainer.setAttribute('data-collapsed', true);
         objectFirstContainer.setAttribute('class', 'closed');
 
 
@@ -404,6 +402,7 @@ var its = {
       
       var expand_button = document.createElement('button');
       expand_button.setAttribute('type', 'button');
+      expand_button.innerHTML = '+';
       expand_button.style.cursor = 'pointer';
       
       // Expand Button
@@ -416,12 +415,12 @@ var its = {
         if ( e.target.nodeName === 'BUTTON'){
           var childMenu = e.target.parentNode.getElementsByTagName('ul')[0];
           if (childMenu){
-            if ( childMenu.getAttribute('data-collapsed') ){
-              childMenu.removeAttribute('data-collapsed');
+            if ( childMenu.getAttribute('class') ){
               childMenu.removeAttribute('class');
+              e.target.innerHTML = '-';
             } else {
-              childMenu.setAttribute('data-collapsed', true);
               childMenu.setAttribute('class', 'closed');
+              e.target.innerHTML = '+';
             }
           }
         }
