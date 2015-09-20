@@ -70,7 +70,7 @@ if ( document.getElementById('its-wrapper') ) {
     'left: 0;',
     'width: 100%;',
   '}',
-  '#its-wrapper ul.closed ul.closed{',
+  '#its-wrapper ul.closed{',
     'display: none;',
   '}',
   '#its-wrapper li{',
@@ -104,9 +104,13 @@ if ( document.getElementById('its-wrapper') ) {
 //-// -------------- its.a -------------- //-//
 var its = {
 
-  test_var: 'testing',
   type_check: true,
-  expanded: true,
+  collapsed: true,
+
+  setConfig: function(config){
+    this.type_check = config.type_check;
+    this.collapsed = config.collapsed;
+  },
   
   // -- API Useage -- //
   // Description Output Options
@@ -343,7 +347,11 @@ var its = {
   traverseObject: function(ctx, processObject, objectContainer){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
-        objectFirstContainer.setAttribute('class', 'closed');
+
+        if (this.collapsed !== false){
+          objectFirstContainer.setAttribute('class', 'closed');
+        }
+        
 
 
     for (var key in ctx) {
@@ -402,8 +410,13 @@ var its = {
       
       var expand_button = document.createElement('button');
       expand_button.setAttribute('type', 'button');
-      expand_button.innerHTML = '+';
       expand_button.style.cursor = 'pointer';
+
+      if (this.collapsed !== true){
+        expand_button.innerHTML = '-';
+      } else {
+        expand_button.innerHTML = '+';
+      }
       
       // Expand Button
       li.insertBefore(expand_button, strong);
@@ -496,8 +509,8 @@ var its = {
     }
 
 
-    // Remove Type From Elements
-    if( toggleTypeCheck === false ){
+    // Remove Type From Display Elements
+    if( this.type_check === false  || toggleTypeCheck === false){
       var messages = its_container_wrapper.children;
       var message_length = messages.length;
       var message_container = messages[message_length - 1] ;
@@ -507,8 +520,15 @@ var its = {
       }
     }
 
-
+    // Remove Nested Class From First UL
+    its_container_wrapper.getElementsByTagName('ul')[0].removeAttribute('class');
     
   },
   
 };
+
+var config = {
+  collapsed: false,
+  type_check: false
+};
+//its.setConfig(config);
