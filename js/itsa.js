@@ -394,7 +394,9 @@ var its = {
     }
     objectWrapper.appendChild(objectHeading);
     objectWrapper.appendChild(objectContainer);
-    objectWrapper.getElementsByTagName('ul')[0].removeAttribute('class');
+    if ( objectWrapper.getElementsByTagName('ul')[0] ){
+      objectWrapper.getElementsByTagName('ul')[0].removeAttribute('class');
+    }
     its_container_wrapper.appendChild(objectWrapper);
   },
     
