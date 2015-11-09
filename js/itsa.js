@@ -355,17 +355,28 @@ var its = {
 
 
     for (var key in ctx) {
-        its.processObject.apply(this, [key,ctx[key], objectContainer, objectFirstContainer]);
+
+      var property_value;
+
+      if (key === 'element'){
+        property_value = ctx[key].nodeName;
+        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+      } else {
+        property_value = ctx[key];
+        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
         if (ctx[key] !== null && typeof(ctx[key])=="object") {
           var objectCtx = ctx[key];
           this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
         }
+      }
     }
     
   },
 
   // Group Object and Array Results
   groupObjectTogether: function( ctx, type ){
+
+    //console.log(type);
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
@@ -394,7 +405,9 @@ var its = {
     }
     objectWrapper.appendChild(objectHeading);
     objectWrapper.appendChild(objectContainer);
-    objectWrapper.getElementsByTagName('ul')[0].removeAttribute('class');
+    if (objectWrapper.getElementsByTagName('ul')[0]){
+      objectWrapper.getElementsByTagName('ul')[0].removeAttribute('class');
+    }
     its_container_wrapper.appendChild(objectWrapper);
   },
     
@@ -443,7 +456,6 @@ var its = {
   },
 
   processHTMLCollection: function(ctx, objectContainer){
-    console.log(ctx);
     for (var i = 0, len = ctx.length; i < len; i++){
       this.htmlElement(ctx[i], objectContainer, i);
     }
@@ -488,7 +500,6 @@ var its = {
    
     // HTML Element
     } else if ( type === 'object:DOMelement' ){
-      console.log(its_container_wrapper);
       this.htmlElement(ctx, its_container_wrapper, 'single-element');
 
     // localStorage
