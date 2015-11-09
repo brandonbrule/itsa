@@ -348,17 +348,26 @@ var its = {
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
 
-        if (this.collapsed !== false){
-          objectFirstContainer.setAttribute('class', 'closed');
-        }
+    if (this.collapsed !== false){
+      objectFirstContainer.setAttribute('class', 'closed');
+    }
         
-
+    // Types inside an Object
     for (var key in ctx) {
       var property_value;
 
-      if (ctx[key].nodeName){
+      if (ctx[key] === null){
+        property_value = null;
+        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+
+      } else if (ctx[key] === undefined){
+        property_value = undefined;
+        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+
+      } else if (ctx[key].nodeName){
         property_value = ctx[key].nodeName;
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+
       } else {
         property_value = ctx[key];
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);

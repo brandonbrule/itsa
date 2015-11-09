@@ -78,6 +78,9 @@ var itsIntroSampleObject = {
 
 
 var test = {
+  darnut: null,
+  boolea: true,
+  undefi: undefined,
   element: document.getElementsByTagName('body')[0],
   elements: document.querySelectorAll('body'),
   elementsByClass : document.getElementsByClassName('prettyprint'),
@@ -87,7 +90,9 @@ var test = {
   },
   list_items: document.getElementsByTagName('li')
 }
-//its.a(test);
+
+// its.a(document.getElementsByTagName('body')[0]);
+// its.a(test);
   
 // -- String Test --//
 var texty = 'This is a String variable';
