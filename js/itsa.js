@@ -353,12 +353,10 @@ var its = {
         }
         
 
-
     for (var key in ctx) {
-
       var property_value;
 
-      if (key === 'element'){
+      if (ctx[key].nodeName){
         property_value = ctx[key].nodeName;
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
       } else {
@@ -369,6 +367,7 @@ var its = {
           this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
         }
       }
+
     }
     
   },

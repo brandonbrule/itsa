@@ -79,12 +79,15 @@ var itsIntroSampleObject = {
 
 var test = {
   element: document.getElementsByTagName('body')[0],
+  elements: document.querySelectorAll('body'),
+  elementsByClass : document.getElementsByClassName('prettyprint'),
   ha: 'lets see',
   another: {
     test: 'tes'
-  }
+  },
+  list_items: document.getElementsByTagName('li')
 }
-its.a(test);
+//its.a(test);
   
 // -- String Test --//
 var texty = 'This is a String variable';
