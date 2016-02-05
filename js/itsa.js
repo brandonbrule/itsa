@@ -327,12 +327,12 @@ var its = {
         typeText = document.createTextNode( '(' + objIterativeType + ')');
 
 
-
     keyStrong.appendChild(keyText);
-    
     li.appendChild(keyStrong);
-    li.appendChild(text);
-    
+
+    if (objIterativeType !== 'array'){
+      li.appendChild(text);
+    }
 
     type.appendChild(typeText);
     type.style.color = 'rgb(170, 0, 0)';
@@ -367,6 +367,7 @@ var its = {
         property_value = undefined;
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
 
+      // If it's an HTML element nested in an object
       } else if (ctx[key].nodeName){
         property_value = {
           el: ctx[key].nodeName
@@ -377,7 +378,7 @@ var its = {
         for (var att, i = 0, atts = ctx[key].attributes, n = atts.length; i < n; i++){
             att = atts[i];
             var att_type = att.nodeName;
-            attrs.push( att.nodeName + ' : ' + att.nodeValue );
+            attrs.push( "[" + att.nodeName + '="' + att.nodeValue + '"]' );
         }
         property_value.attributes = attrs;
         
