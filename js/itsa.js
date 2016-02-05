@@ -314,6 +314,7 @@ var its = {
   // Create and Append List Item of Information
   // Each sub object is appended in a nested ul.
   processObject: function(key,value, objectContainer, objectFirstContainer){
+
     var objIterativeType = this.checkType(value),
         combined = ': ' + value + ' ',
         type = document.createElement('span'),
@@ -342,6 +343,8 @@ var its = {
     objectFirstContainer.appendChild(li);
 
     objectContainer.appendChild(objectFirstContainer);
+
+
   },
 
   traverseObject: function(ctx, processObject, objectContainer){
@@ -351,7 +354,7 @@ var its = {
     if (this.collapsed !== false){
       objectFirstContainer.setAttribute('class', 'closed');
     }
-        
+    
     // Types inside an Object
     for (var key in ctx) {
       var property_value;
@@ -365,15 +368,28 @@ var its = {
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
 
       } else if (ctx[key].nodeName){
-        property_value = ctx[key].nodeName;
+        property_value = {
+          el: ctx[key].nodeName
+        };
+
+        var nodes=[], values=[];
+        var attrs = [];
+        for (var att, i = 0, atts = ctx[key].attributes, n = atts.length; i < n; i++){
+            att = atts[i];
+            var att_type = att.nodeName;
+            attrs.push( att.nodeName + ' : ' + att.nodeValue );
+        }
+        property_value.attributes = attrs;
+        
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+        this.traverseObject(property_value, its.processObject, objectFirstContainer );
 
       } else {
+
         property_value = ctx[key];
         its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
-        if (ctx[key] !== null && typeof(ctx[key])=="object") {
-          var objectCtx = ctx[key];
-          this.traverseObject(objectCtx, its.processObject, objectFirstContainer );
+        if (property_value !== null && typeof(property_value)=="object") {
+          this.traverseObject(property_value, its.processObject, objectFirstContainer );
         }
       }
 
