@@ -179,8 +179,9 @@ var its = {
       runScriptButton.style.top = '5px';
       wrapper.appendChild(runScriptButton);
     })();
-    runScriptButton.addEventListener("click", function(){
+    runScriptButton.addEventListener("click", function(e){
       ( new Function( messageElement.value ))();
+      e.stopPropagation();
     });
 
     wrapper.setAttribute('class', 'code-snippet');
@@ -217,8 +218,9 @@ var its = {
   },
   // Remove Single Message Functionality
   removeSingleMessage: function(closeButton, container){
-    closeButton.onclick = function () { 
+    closeButton.addEventListener('click', function(e){
       container.parentNode.removeChild(container);
+      e.stopPropagation();
     };
   },
   
