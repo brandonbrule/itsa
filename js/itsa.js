@@ -476,6 +476,7 @@ var its = {
             }
           }
         }
+        e.stopPropagation();
       });
     }
   },

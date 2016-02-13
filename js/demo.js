@@ -88,11 +88,19 @@ var test = {
   another: {
     test: 'tes'
   },
-  list_items: document.getElementsByTagName('li')
+  arr : [
+    'test',
+    'test2'
+  ],
+  list_items: [
+    document.getElementsByTagName('li')[0],
+    document.getElementsByTagName('li')[1],
+    document.getElementsByTagName('li')[2]
+  ],
 }
 
 // its.a(document.getElementsByTagName('body')[0]);
-// its.a(test);
+ its.a(test);
   
 // -- String Test --//
 var texty = 'This is a String variable';
