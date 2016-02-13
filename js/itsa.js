@@ -221,7 +221,7 @@ var its = {
     closeButton.addEventListener('click', function(e){
       container.parentNode.removeChild(container);
       e.stopPropagation();
-    };
+    });
   },
   
   
