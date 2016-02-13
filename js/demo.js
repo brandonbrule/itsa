@@ -100,7 +100,7 @@ var test = {
 }
 
 // its.a(document.getElementsByTagName('body')[0]);
- its.a(test);
+ //its.a(test);
   
 // -- String Test --//
 var texty = 'This is a String variable';
