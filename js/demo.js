@@ -35,10 +35,7 @@ its.message(
 // -- Test Code Snippet --//
 //its.snippet();
 
-var paragraphs = document.getElementsByTagName('li');
-var nodees = document.querySelectorAll('li');
 
-//its.a(paragraphs);
 
 // ------- Usage Examples ------- //
 // ------------------------------ //
@@ -97,19 +94,24 @@ var test = {
     document.getElementsByTagName('li')[1],
     document.getElementsByTagName('li')[2]
   ],
-}
+};
 
-// its.a(document.getElementsByTagName('body')[0]);
- //its.a(test);
-  
+
+// -- Null Test -- //
+var nully = null;
+//its.a(null);
+
+// -- Undefined test -- //
+var undefinedy;
+//its.a(undefinedy);
+
 // -- String Test --//
 var texty = 'This is a String variable';
 //its.a(texty);
-  
+
 // -- Number Test -- //
 var number = 1;
 //its.a(number);
-
 
 // -- Number String Test -- //
 var numberString = '1';
@@ -133,6 +135,24 @@ var alsoNotABooleon = 'FALSE';
 // -- Date Test -- //
 var date = new Date();
 //its.a(date);
+
+
+// Element By Id
+var elId = document.getElementById('source-code');
+//its.a(elId);
+
+// -- Body Test -- //
+var body = document.getElementsByTagName('body')[0];
+//its.a(body);
+
+// HTMLCollection
+var paragraphs = document.getElementsByTagName('li');
+//its.a(paragraphs);
+
+// HTML Nodes
+var nodees = document.querySelectorAll('li');
+//its.a(nodees);
+
 
 
 // -- Array Test -- //
