@@ -402,8 +402,6 @@ var its = {
 
   // Group Object and Array Results
   groupObjectTogether: function( ctx, type ){
-
-    //console.log(type);
     var objectWrapper = document.createElement('div'),
         objectHeading = document.createElement('div'),
         objectHeadingText = document.createTextNode( type ),
@@ -490,33 +488,20 @@ var its = {
   },
   
 
-  
-  
   // -- Get the type of the input -- //
-  checkType: function(global){
-    var cache = {};
-     return function(obj) {
-        var key;
-        return obj === null ? 'null' // null
-            // window in browser or global in nodejs
-            : obj === global ? 'global' 
-            // basic: string, boolean, number, undefined, function
-            : (key = typeof obj) !== 'object' ? key
-            // DOM element
-            : obj.nodeType ? 'object:DOMelement'
-            // cached. date, regexp, error, object, array, math
-            : cache[key = ({}).toString.call(obj)]
-            // get XXXX from [object XXXX], and cache it
-            || (cache[key] = key.slice(8, -1).toLowerCase()); 
-    };
-  }(),
+  checkType : function(arg){
+    if (arg != null || arg != undefined){
+      if (arg.nodeType){
+        return 'DOMelement';
+      }
+    }
 
- 
+    return Object.prototype.toString.call(arg).replace('[object ', '').replace(']', '').toLowerCase();
+  },
+
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
   a: function(ctx, toggleTypeCheck){
-    // Pass false to disable type detection.
-    // its.a(whatever, false);
     var type = this.checkType(ctx);
 
 
@@ -527,7 +512,7 @@ var its = {
       console.log(ctx);
    
     // HTML Element
-    } else if ( type === 'object:DOMelement' ){
+    } else if ( type === 'DOMelement' ){
       this.htmlElement(ctx, its_container_wrapper, 'single-element');
 
     // localStorage

@@ -97,6 +97,9 @@ var test = {
 };
 
 
+// -- Windows -- //
+//its.a(window);
+
 // -- Null Test -- //
 var nully = null;
 //its.a(null);
@@ -112,6 +115,17 @@ var texty = 'This is a String variable';
 // -- Number Test -- //
 var number = 1;
 //its.a(number);
+
+// Math Test
+//its.a(Math);
+
+// Regex
+var re = /ab+c/;
+//its.a(re);
+
+// Error Object
+var errorObj = new Error();
+//its.a(errorObj);
 
 // -- Number String Test -- //
 var numberString = '1';
@@ -135,6 +149,12 @@ var alsoNotABooleon = 'FALSE';
 // -- Date Test -- //
 var date = new Date();
 //its.a(date);
+
+// Function
+var functiony = function(){
+
+};
+//its.a(functiony);
 
 
 // Element By Id
@@ -176,7 +196,7 @@ var arrayWithObjects = [
 ];
 
 //its.a(arrayWithObjects);
-  
+
 
 // -- Simple Object Test -- //
 var ObjectTest =
