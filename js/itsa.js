@@ -229,7 +229,7 @@ var its = {
   // -- Standard Message Handeling -- //
   // Adds the Type the message context
   assembleContext: function(ctx, type){
-    if(type){
+    if(its.type_check){
       ctx = ctx + ' (' + type + ')';
     }else{
       ctx = ctx;
@@ -335,11 +335,13 @@ var its = {
     if (objIterativeType !== 'array'){
       li.appendChild(text);
     }
-
-    type.appendChild(typeText);
-    type.style.color = 'rgb(170, 0, 0)';
-    type.setAttribute('class', 'its-type');
-    li.appendChild(type);
+    
+    if(its.type_check){
+      type.appendChild(typeText);
+      type.style.color = 'rgb(170, 0, 0)';
+      type.setAttribute('class', 'its-type');
+      li.appendChild(type);
+    }
 
     
     objectFirstContainer.appendChild(li);
@@ -503,6 +505,8 @@ var its = {
   // Controller Starts it all up - distributes the workload
   a: function(ctx, toggleTypeCheck){
     var type = this.checkType(ctx);
+    if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
+    its.type_check = toggleTypeCheck;
 
 
     // Object/Array
@@ -531,18 +535,6 @@ var its = {
       type = this.assembleContext(ctx, type);
       // Display the output
       this.appendContent(type);
-    }
-
-
-    // Remove Type From Display Elements
-    if( this.type_check === false  || toggleTypeCheck === false){
-      var messages = its_container_wrapper.children;
-      var message_length = messages.length;
-      var message_container = messages[message_length - 1] ;
-      type_elements = message_container.getElementsByClassName('its-type');
-      while (type_elements.length > 0) {
-        type_elements[0].parentNode.removeChild(type_elements[0]);
-      }
     }
 
   },
