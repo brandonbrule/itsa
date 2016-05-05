@@ -234,7 +234,6 @@ var its = {
     }else{
       ctx = ctx;
     }
-    console.log(ctx);
     return ctx;
   },
   // Creates and Appends all the information for standard things
@@ -504,16 +503,17 @@ var its = {
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
   a: function(ctx, toggleTypeCheck){
-    var type = this.checkType(ctx);
+
     if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
+    var type = this.checkType(ctx);
     its.type_check = toggleTypeCheck;
+    console.log(ctx);
 
 
     // Object/Array
     if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
 
       this.groupObjectTogether(ctx, type, toggleTypeCheck);
-      console.log(ctx);
    
     // HTML Element
     } else if ( type === 'DOMelement' ){
