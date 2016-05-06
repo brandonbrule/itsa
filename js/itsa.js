@@ -44,6 +44,11 @@ if ( document.getElementById('its-wrapper') ) {
     'border: 1px solid white;',
     'background: none;',
   '}',
+  '.its-close-all-button{',
+    'position: absolute;',
+    'top: 3px;',
+    'right: 35px;',
+  '}',
   '.its-a-message{',
     'color: white;',
     'display: block;',
@@ -147,6 +152,8 @@ var its = {
     wrapper.appendChild(headingElement);
     wrapper.appendChild(messageElement);
     its_container_wrapper.appendChild(wrapper);
+
+    its.closeAllButton();
   },
   
   snippet: function(){
@@ -203,6 +210,23 @@ var its = {
   
   setDefaultPosition: function(){
     its_container_wrapper.style.position = 'relative';
+  },
+
+
+  // Close All Button
+  closeAllButton : function(){
+    if (!document.getElementById('its-close-all-button')){
+      var closeButton = document.createElement('button'),
+          closeCtx = document.createTextNode('Clear All');
+
+      closeButton.setAttribute('class', 'its-close-all-button');
+      closeButton.id= "its-close-all-button";
+      closeButton.appendChild(closeCtx);
+      closeButton.addEventListener('click', function(e){
+        its.clearAll();
+      });
+      its_container_wrapper.appendChild(closeButton);
+    }
   },
   
   // -- Close Single Message Button -- //
@@ -503,7 +527,6 @@ var its = {
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
   a: function(ctx, toggleTypeCheck){
-
     if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
     var type = this.checkType(ctx);
     its.type_check = toggleTypeCheck;
@@ -536,6 +559,8 @@ var its = {
       // Display the output
       this.appendContent(type);
     }
+
+    this.closeAllButton();
 
   },
   
