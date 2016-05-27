@@ -111,6 +111,7 @@ var its = {
 
   type_check: true,
   collapsed: true,
+  custom_title: false,
 
   setConfig: function(config){
     this.type_check = config.type_check;
@@ -136,6 +137,7 @@ var its = {
         messageText = document.createTextNode(message);
     
     wrapper.style.position = 'relative';
+
 
     headingElement.setAttribute('class', 'its-a-message');
     headingElement.appendChild(headingText);
@@ -253,6 +255,11 @@ var its = {
   // -- Standard Message Handeling -- //
   // Adds the Type the message context
   assembleContext: function(ctx, type){
+
+    if (its.custom_title !== false){
+      ctx = its.custom_title + ': ' + ctx;
+    }
+
     if(its.type_check){
       ctx = ctx + ' (' + type + ')';
     }else{
@@ -266,6 +273,8 @@ var its = {
     var container = document.createElement('div'),
         content = document.createTextNode(ctx),
         closeButton;
+
+        alert(ctx);
     
     // Pass false to disable type detection.
     // its.a(whatever, false);
@@ -432,6 +441,10 @@ var its = {
         objectHeadingText = document.createTextNode( type ),
         objectContainer = document.createElement('div');
 
+    if (its.custom_title !== false){
+      objectHeadingText = document.createTextNode(its.custom_title + ': ' + type);
+    }
+
 
     // Header
     objectHeading.setAttribute('class', 'its-a-message');
@@ -527,8 +540,17 @@ var its = {
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
   a: function(ctx, toggleTypeCheck){
-    if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
+
     var type = this.checkType(ctx);
+
+    if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
+
+    if (toggleTypeCheck !== true && toggleTypeCheck !== false){
+      its.custom_title = toggleTypeCheck;
+      toggleTypeCheck = true
+      
+    }
+
     its.type_check = toggleTypeCheck;
     console.log(ctx);
 
@@ -561,6 +583,8 @@ var its = {
     }
 
     this.closeAllButton();
+
+    its.custom_title = false;
 
   },
   
