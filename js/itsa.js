@@ -274,8 +274,6 @@ var its = {
         content = document.createTextNode(ctx),
         closeButton;
 
-        alert(ctx);
-    
     // Pass false to disable type detection.
     // its.a(whatever, false);
     if(checkToAppendCloseButton !== false){
