@@ -61,6 +61,12 @@ if ( document.getElementById('its-wrapper') ) {
     'border: 3px solid rgb(170, 0, 0);',
     'background-color: rgb(170, 0, 0);',
   '}',
+  '.its-a-message input{',
+    'background: none;',
+    'color: #fff;',
+    'border: none;',
+    'width: auto',
+  '}',
   '.its-a-object-container{',
     'padding: 10px;',
     'border: 3px solid rgb(170, 0, 0);',
@@ -269,23 +275,36 @@ var its = {
     return ctx;
   },
   // Creates and Appends all the information for standard things
-  appendContent : function(ctx, checkToAppendCloseButton){
+  appendContent : function(ctx, type){
     // Output Elements
     var container = document.createElement('div'),
-        content = document.createTextNode(ctx),
-        closeButton;
+        content = document.createElement('input'),
+        custom_title = document.createElement('strong'),
+        type_element = document.createElement('span');
 
     // Pass false to disable type detection.
-    // its.a(whatever, false);
-    if(checkToAppendCloseButton !== false){
-      this.createCloseButton(container);
+    this.createCloseButton(container);
+
+    // Set Custom Title if Passed In
+    if (its.custom_title){
+      custom_title.innerHTML = its.custom_title + ': ';
+      container.appendChild(custom_title);
     }
-    
+
+    // Set Input value with value passed in
+    content.value = ctx;
+    container.appendChild(content);
+
+    // If the user hasnt'
+    if(its.type_check !== false){
+      type_element.innerHTML = '( ' + type + ' )';
+      container.appendChild(type_element);
+    }
+
     // Set Output Class
     container.className += "its-a-message";
     
     // Append
-    container.appendChild(content);
     its_container_wrapper.appendChild(container);
     
     //-- Insert the results as the first element in body
@@ -577,9 +596,13 @@ var its = {
     // Variables, Strings, Numbers, Booleon
     }else{
 
-      type = this.assembleContext(ctx, type);
+
+      
+
+      //type = this.assembleContext(ctx, type);
+
       // Display the output
-      this.appendContent(type);
+      this.appendContent(ctx, type);
     }
 
     this.closeAllButton();
