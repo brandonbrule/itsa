@@ -258,27 +258,11 @@ var its = {
   },
   
   
-  
-  // -- Standard Message Handeling -- //
-  // Adds the Type the message context
-  assembleContext: function(ctx, type){
-
-    if (its.custom_title !== false){
-      ctx = its.custom_title + ': ' + ctx;
-    }
-
-    if(its.type_check){
-      ctx = ctx + ' (' + type + ')';
-    }else{
-      ctx = ctx;
-    }
-    return ctx;
-  },
   // Creates and Appends all the information for standard things
   appendContent : function(ctx, type){
     // Output Elements
     var container = document.createElement('div'),
-        content = document.createElement('input'),
+        content = document.createElement('span'),
         custom_title = document.createElement('strong'),
         type_element = document.createElement('span');
 
@@ -292,12 +276,15 @@ var its = {
     }
 
     // Set Input value with value passed in
-    content.value = ctx;
+    content.innerHTML = ctx;
+    content.setAttribute('contenteditable', true);
+    content.setAttribute('style', 'padding: 5px;');
     container.appendChild(content);
 
     // If the user hasnt'
     if(its.type_check !== false){
       type_element.innerHTML = '( ' + type + ' )';
+      type_element.setAttribute('style', 'padding-left: 5px;');
       container.appendChild(type_element);
     }
 
@@ -595,11 +582,6 @@ var its = {
       
     // Variables, Strings, Numbers, Booleon
     }else{
-
-
-      
-
-      //type = this.assembleContext(ctx, type);
 
       // Display the output
       this.appendContent(ctx, type);
