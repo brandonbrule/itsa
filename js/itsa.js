@@ -55,6 +55,7 @@ if ( document.getElementById('its-wrapper') ) {
     'padding: 5px 1%;',
     'box-sizing: border-box;',
     'width: 100%;',
+    'word-wrap: break-word;',
     'margin: 1px;',
     'position: relative;',
     'border: 3px solid rgb(170, 0, 0);',
@@ -337,6 +338,7 @@ var its = {
   },
   
   cookies: function(){
+    this.a(document.cookie);
     console.log(document.cookie);
   },
   
