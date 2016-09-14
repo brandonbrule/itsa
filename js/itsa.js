@@ -221,6 +221,9 @@ var its = {
     its_container_wrapper.style.position = 'relative';
   },
 
+  htmlEntities: function(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  },
 
   // Close All Button
   closeAllButton : function(){
@@ -304,7 +307,6 @@ var its = {
   htmlElement:function(ctx, container, iterator){
     var wrapper = document.createElement('div'),
         heading = document.createElement('div'),
-        headingText,
         pre = document.createElement('pre'),
         tmp = document.createElement('div'),
         ctxHeader = ctx.cloneNode(false),
@@ -321,12 +323,18 @@ var its = {
 
     if (iterator === 'single-element'){
       pre.setAttribute('class', 'its-a-object-container');
-      headerToString = document.createTextNode(tmp.innerHTML);
+      headerToString = tmp.innerHTML;
     } else{
-      headerToString = document.createTextNode(tmp.innerHTML + ' [' + iterator + ']');
+      headerToString = tmp.innerHTML + ' [' + iterator + ']';
     }
 
-    heading.appendChild(headerToString);
+    headerToString = this.htmlEntities(headerToString);
+
+    if (this.custom_title){
+      headerToString = '<strong>' + this.custom_title + '</strong>: ' + headerToString;
+    }
+
+    heading.innerHTML = headerToString;
     tmp.innerHTML = '';
     
     // Close Button
