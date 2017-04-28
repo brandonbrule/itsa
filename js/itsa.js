@@ -425,8 +425,8 @@ var its = {
 
         var nodes=[], values=[];
         var attrs = [];
-        for (var att, i = 0, atts = ctx[key].attributes, n = atts.length; i < n; i++){
-            att = atts[i];
+        for (var att, i = 0, atts = ctx[key].attributes, n = attrs.length; i < n; i++){
+            att = attrs[i];
             var att_type = att.nodeName;
             attrs.push( "[" + att.nodeName + '="' + att.nodeValue + '"]' );
         }
