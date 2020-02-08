@@ -420,3 +420,16 @@ var bigobj = {
 };
 //its.a(bigobj, false);
 //its.a(bigobj);
+
+// var ModulePattern = (function(){
+//   var state = false;
+//   var init = function(){
+//     // Do something
+//   };
+//   return{
+//     init: init,
+//     state: state
+//   }
+// })();
+
+// its.a(ModulePattern);

@@ -361,32 +361,55 @@ var its = {
   // Basically - loop through object properties
   // Create and Append List Item of Information
   // Each sub object is appended in a nested ul.
-  processObject: function(key,value, objectContainer, objectFirstContainer){
+  createItem: function(key,value, objectContainer, objectFirstContainer){
 
-    var objIterativeType = this.checkType(value),
-        combined = ': ' + value + ' ',
-        type = document.createElement('span'),
-        typeText,
-        text = document.createTextNode(combined),
-        keyStrong = document.createElement('strong'),
-        li = document.createElement('li'),
-        propertyValueEl = document.createElement('span');
-        keyText = document.createTextNode(key);
-        typeText = document.createTextNode( '(' + objIterativeType + ')');
+    var li = document.createElement('li'),
+        type_of = this.checkType(value),
+        type_of_el = document.createElement('span'),
+        type_of_text,
+        
+        prop_el,
+
+        key_el = document.createElement('strong'),
+
+        type_of_text = document.createTextNode( ' (' + type_of + ')');
 
 
-    keyStrong.appendChild(keyText);
-    li.appendChild(keyStrong);
+        if(type_of === 'function'){
+          prop_el = document.createElement('PRE');
+          prop_el.innerHTML = value;
+          key_el.innerHTML =  key + '( )';
+        } else {
+          prop_el = document.createTextNode(': ' + value);
+          key_el.innerHTML = key;
+        }
 
-    if (objIterativeType !== 'array'){
-      li.appendChild(text);
-    }
+
+    li.appendChild(key_el);
+
     
+    // Type Indicator
     if(its.type_check){
-      type.appendChild(typeText);
-      type.style.color = 'rgb(170, 0, 0)';
-      type.setAttribute('class', 'its-type');
-      li.appendChild(type);
+      type_of_el.style.color = 'rgb(170, 0, 0)';
+      type_of_el.setAttribute('class', 'its-type');
+
+        type_of_el.appendChild(type_of_text);
+
+        if(type_of === 'function'){
+          console.log(type_of)
+          li.appendChild(type_of_el);
+          li.appendChild(prop_el);
+
+        } else {
+          li.appendChild(prop_el);
+          li.appendChild(type_of_el);
+        }
+        
+
+      
+    // With No Type Detection
+    } else {
+      li.appendChild(prop_el);
     }
 
     
@@ -397,7 +420,7 @@ var its = {
 
   },
 
-  traverseObject: function(ctx, processObject, objectContainer){
+  traverseObject: function(ctx, createItem, objectContainer){
     var objectFirstContainer = document.createElement('ul');
         objectFirstContainer.setAttribute('data-traverse','nested-properties');
 
@@ -411,11 +434,11 @@ var its = {
 
       if (ctx[key] === null){
         property_value = null;
-        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+        its.createItem.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
 
       } else if (ctx[key] === undefined){
         property_value = undefined;
-        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+        its.createItem.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
 
       // If it's an HTML element nested in an object
       } else if (ctx[key].nodeName){
@@ -432,15 +455,15 @@ var its = {
         }
         property_value.attributes = attrs;
         
-        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
-        this.traverseObject(property_value, its.processObject, objectFirstContainer );
+        its.createItem.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+        this.traverseObject(property_value, its.createItem, objectFirstContainer );
 
       } else {
 
         property_value = ctx[key];
-        its.processObject.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
+        its.createItem.apply(this, [key, property_value, objectContainer, objectFirstContainer]);
         if (property_value !== null && typeof(property_value)=="object") {
-          this.traverseObject(property_value, its.processObject, objectFirstContainer );
+          this.traverseObject(property_value, its.createItem, objectFirstContainer );
         }
       }
 
@@ -476,7 +499,7 @@ var its = {
     } else {
 
       // Traverse the object and process the results for display.
-      this.traverseObject(ctx, this.processObject, objectContainer);
+      this.traverseObject(ctx, this.createItem, objectContainer);
 
       this.correctNestedObjectElements(objectContainer);
     }
@@ -566,13 +589,14 @@ var its = {
     }
 
     its.type_check = toggleTypeCheck;
-    console.log(ctx);
+    if(ctx){
+      //console.log(ctx);
+    }
 
 
-    // Object/Array
-    if( type === 'object' || type === 'array' || type === 'htmlcollection' || type === 'nodelist'){
-
-      this.groupObjectTogether(ctx, type, toggleTypeCheck);
+    // Primatives
+    if(type === 'string' || type === 'number' || type === 'booleon' || type === 'date'){
+      this.appendContent(ctx, type);
    
     // HTML Element
     } else if ( type === 'DOMelement' ){
@@ -587,12 +611,14 @@ var its = {
         this.groupObjectTogether(localStorageItemObject, key + ' (' + type + ')');
         console.log(key + ':' + ctx[key]);
       }
-      
-    // Variables, Strings, Numbers, Booleon
-    }else{
 
-      // Display the output
-      this.appendContent(ctx, type);
+    // Various JS Objects
+    } else {
+      // Window Exceeds maximum callstack :(
+      if(type !== 'window'){
+        this.groupObjectTogether(ctx, type, toggleTypeCheck);
+      }
+      
     }
 
     this.closeAllButton();
