@@ -421,15 +421,30 @@ var bigobj = {
 //its.a(bigobj, false);
 //its.a(bigobj);
 
-// var ModulePattern = (function(){
-//   var state = false;
-//   var init = function(){
-//     // Do something
-//   };
-//   return{
-//     init: init,
-//     state: state
-//   }
-// })();
+var ModulePattern = (function(){
+  var state = false;
+  var privateFunction = function(){
+    //This should be private
+  }
+  var init = function(){
+    // Do something
+    var data = [
+    {
+        "key1": {
+          "1":"The value of key1 in ObjectTest"},
+        "key2": "The value of key2 in ObjectTest",
+        "key3": "The value of key3 in ObjectTest"
+    }
+    ]
+  };
+  return{
+    init: init,
+    state: state
+  }
+})();
 
-// its.a(ModulePattern);
+//its.a(ModulePattern);
+
+
+
+

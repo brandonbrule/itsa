@@ -115,13 +115,10 @@ if ( document.getElementById('its-wrapper') ) {
 
 //-// -------------- its.a -------------- //-//
 var its = {
-
-  type_check: true,
   collapsed: true,
   custom_title: false,
 
   setConfig: function(config){
-    this.type_check = config.type_check;
     this.collapsed = config.collapsed;
   },
   
@@ -285,11 +282,9 @@ var its = {
     container.appendChild(content);
 
     // If the user hasnt'
-    if(its.type_check !== false){
-      type_element.innerHTML = '( ' + type + ' )';
-      type_element.setAttribute('style', 'padding-left: 5px;');
-      container.appendChild(type_element);
-    }
+    type_element.innerHTML = '( ' + type + ' )';
+    type_element.setAttribute('style', 'padding-left: 5px;');
+    container.appendChild(type_element);
 
     // Set Output Class
     container.className += "its-a-message";
@@ -367,51 +362,41 @@ var its = {
         type_of = this.checkType(value),
         type_of_el = document.createElement('span'),
         type_of_text,
-        
-        prop_el,
 
+        prop_el,
         key_el = document.createElement('strong'),
 
         type_of_text = document.createTextNode( ' (' + type_of + ')');
 
 
-        if(type_of === 'function'){
-          prop_el = document.createElement('PRE');
-          prop_el.innerHTML = value;
-          key_el.innerHTML =  key + '( )';
-        } else {
-          prop_el = document.createTextNode(': ' + value);
-          key_el.innerHTML = key;
-        }
+    if(type_of === 'function'){
+      prop_el = document.createElement('PRE');
+      prop_el.innerHTML = value;
+      key_el.innerHTML =  key + '( )';
+    } else {
+      prop_el = document.createTextNode(': ' + value);
+      key_el.innerHTML = key;
+    }
+
+
+   
+    // Styles for Type (type)
+    type_of_el.style.color = 'rgb(170, 0, 0)';
+    type_of_el.setAttribute('class', 'its-type');
+    type_of_el.appendChild(type_of_text);
 
 
     li.appendChild(key_el);
 
-    
-    // Type Indicator
-    if(its.type_check){
-      type_of_el.style.color = 'rgb(170, 0, 0)';
-      type_of_el.setAttribute('class', 'its-type');
+    if(type_of === 'function'){
+      li.appendChild(type_of_el);
+      li.appendChild(prop_el);
 
-        type_of_el.appendChild(type_of_text);
-
-        if(type_of === 'function'){
-          console.log(type_of)
-          li.appendChild(type_of_el);
-          li.appendChild(prop_el);
-
-        } else {
-          li.appendChild(prop_el);
-          li.appendChild(type_of_el);
-        }
-        
-
-      
-    // With No Type Detection
     } else {
       li.appendChild(prop_el);
+      li.appendChild(type_of_el);
     }
-
+      
     
     objectFirstContainer.appendChild(li);
 
@@ -500,7 +485,6 @@ var its = {
 
       // Traverse the object and process the results for display.
       this.traverseObject(ctx, this.createItem, objectContainer);
-
       this.correctNestedObjectElements(objectContainer);
     }
     objectWrapper.appendChild(objectHeading);
@@ -576,21 +560,12 @@ var its = {
 
   // -- Initialization function - its.a(thing); -- //
   // Controller Starts it all up - distributes the workload
-  a: function(ctx, toggleTypeCheck){
+  a: function(ctx){
 
     var type = this.checkType(ctx);
 
-    if (typeof(toggleTypeCheck)==='undefined') toggleTypeCheck = true;
-
-    if (toggleTypeCheck !== true && toggleTypeCheck !== false){
-      its.custom_title = toggleTypeCheck;
-      toggleTypeCheck = true
-      
-    }
-
-    its.type_check = toggleTypeCheck;
     if(ctx){
-      //console.log(ctx);
+      console.log(ctx);
     }
 
 
@@ -616,7 +591,7 @@ var its = {
     } else {
       // Window Exceeds maximum callstack :(
       if(type !== 'window'){
-        this.groupObjectTogether(ctx, type, toggleTypeCheck);
+        this.groupObjectTogether(ctx, type);
       }
       
     }
