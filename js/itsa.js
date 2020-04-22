@@ -570,7 +570,7 @@ var its = {
 
 
     // Primatives
-    if(type === 'string' || type === 'number' || type === 'booleon' || type === 'date'){
+    if(type === 'string' || type === 'number' || type === 'boolean' || type === 'date'){
       this.appendContent(ctx, type);
    
     // HTML Element
