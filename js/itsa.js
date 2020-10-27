@@ -1,11 +1,4 @@
-// Change element
-
 var its_container_wrapper;
-
-var config = {
-  expanded: true,
-  type_detection: true
-}
 
 // Let the the user set a custom location for the wrapper
 // so if theres an element with its-wrapper do stuff there.
@@ -19,9 +12,9 @@ if ( document.getElementById('its-wrapper') ) {
   document.body.insertBefore(its_container_wrapper, document.body.firstChild);
 }
 
-
 // Styles Config
 ( function () {
+  // Change element
   var style_tag = document.createElement('style');
   var styles = [
   '#its-wrapper{',
@@ -117,10 +110,6 @@ if ( document.getElementById('its-wrapper') ) {
 var its = {
   collapsed: true,
   custom_title: false,
-
-  setConfig: function(config){
-    this.collapsed = config.collapsed;
-  },
   
   // -- API Useage -- //
   // Description Output Options
